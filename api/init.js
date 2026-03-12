@@ -107,6 +107,14 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.error('Init error:', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(200).json({
+      ok: false,
+      error: err.message,
+      stack: err.stack,
+      env_check: {
+        has_url: !!process.env.POSTGRES_URL,
+        url_prefix: process.env.POSTGRES_URL ? process.env.POSTGRES_URL.split(':')[0] : 'none'
+      }
+    });
   }
 }
