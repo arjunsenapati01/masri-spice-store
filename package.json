@@ -1,6 +1,7 @@
 {
   "name": "masri-spice-store",
   "version": "1.0.0",
+  "type": "module",
   "description": "MBJ International – Masri Spice E-Commerce Platform",
   "scripts": {
     "dev": "vercel dev",
