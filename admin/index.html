@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders — Masri Admin</title>
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="icon" href="../images/logo.png" />
+</head>
+
+<body>
+    <div id="admin-toast" class="admin-toast"></div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal-overlay" id="order-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>📦 Order Details</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-admin-gold btn-sm" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                <img src="../images/logo.png" alt="Masri" />
+                <div>
+                    <div class="sidebar-brand">Masri</div>
+                    <div class="sidebar-sub">Admin Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">Main</div>
+                <a href="index.html" class="nav-item active"><span class="nav-icon">📋</span> Orders</a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">🌶️</span> Products</a>
+                <div class="nav-group-title">Settings</div>
+                <a href="settings.html" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+                <div class="nav-group-title">Store</div>
+                <a href="../index.html" class="nav-item" target="_blank"><span class="nav-icon">🛍️</span> View
+                    Store</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="doLogout()"><span>🚪</span> Logout</button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div class="topbar-title">
+                    <h1>Orders</h1>
+                    <p>Manage and track customer orders</p>
+                </div>
+                <div class="topbar-actions">
+                    <span class="topbar-badge">🟢 Live</span>
+                    <button class="btn-admin btn-sm" onclick="render()">↻ Refresh</button>
+                </div>
+            </div>
+
+            <div class="admin-content">
+                <div class="stats-grid" id="stats-grid"></div>
+
+                <div class="filter-bar" id="filter-bar">
+                    <button class="filter-chip active" onclick="setFilter('All', this)">All</button>
+                    <button class="filter-chip" onclick="setFilter('Pending', this)">Pending</button>
+                    <button class="filter-chip" onclick="setFilter('Confirmed', this)">Confirmed</button>
+                    <button class="filter-chip" onclick="setFilter('Shipped', this)">Shipped</button>
+                    <button class="filter-chip" onclick="setFilter('Delivered', this)">Delivered</button>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <div class="table-toolbar">
+                        <h3>📦 Order List</h3>
+                    </div>
+                    <div id="orders-table-wrap">
+                        <div class="admin-empty">
+                            <div class="empty-icon">📭</div>
+                            <p>Loading orders…</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/store.js"></script>
+    <script>
+        if (!Store.isAdminLoggedIn()) window.location.href = 'login.html';
+
+        let currentFilter = 'All';
+        let _allOrders = [];
+
+        const STATUS_COLORS = { 'Pending': 'badge-pending', 'Confirmed': 'badge-confirmed', 'Shipped': 'badge-shipped', 'Delivered': 'badge-delivered' };
+
+        function adminToast(msg) {
+            const t = document.getElementById('admin-toast');
+            t.innerHTML = '✓ ' + msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function setFilter(f, el) {
+            currentFilter = f;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            renderTable();
+        }
+
+        function doLogout() { Store.adminLogout(); window.location.href = 'login.html'; }
+
+        async function render() {
+            try {
+                _allOrders = await Store.getOrders();
+            } catch (e) { console.error(e); }
+            renderStats();
+            renderTable();
+        }
+
+        function renderStats() {
+            const orders = _allOrders;
+            const pending = orders.filter(o => o.order_status === 'Pending').length;
+            const shipped = orders.filter(o => o.order_status === 'Shipped').length;
+            const revenue = orders.reduce((s, o) => s + (o.total || 0), 0);
+            document.getElementById('stats-grid').innerHTML = `
+        <div class="stat-card"><div class="stat-icon">📦</div><div><div class="stat-value">${orders.length}</div><div class="stat-label">Total Orders</div></div></div>
+        <div class="stat-card"><div class="stat-icon">⏳</div><div><div class="stat-value">${pending}</div><div class="stat-label">Pending</div></div></div>
+        <div class="stat-card"><div class="stat-icon">🚚</div><div><div class="stat-value">${shipped}</div><div class="stat-label">Shipped</div></div></div>
+        <div class="stat-card"><div class="stat-icon">₹</div><div><div class="stat-value">₹${revenue.toLocaleString('en-IN')}</div><div class="stat-label">Total Revenue</div></div></div>`;
+        }
+
+        function renderTable() {
+            const orders = currentFilter === 'All' ? _allOrders : _allOrders.filter(o => o.order_status === currentFilter);
+            const wrap = document.getElementById('orders-table-wrap');
+
+            if (!orders.length) {
+                wrap.innerHTML = `<div class="admin-empty"><div class="empty-icon">📭</div><p>No orders${currentFilter !== 'All' ? ' with status: ' + currentFilter : ''}</p></div>`;
+                return;
+            }
+
+            wrap.innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Payment</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            ${orders.map(o => {
+                const customer = typeof o.customer === 'string' ? JSON.parse(o.customer) : o.customer;
+                const itemsSummary = (o.items || []).map(i => `${i.name} ×${i.qty}`).join(', ') || '—';
+                const payBadge = o.payment_method === 'cod' ? '<span class="badge badge-cod">COD</span>' : '<span class="badge badge-paid">Paid</span>';
+                const statusBadge = `<span class="badge ${STATUS_COLORS[o.order_status] || 'badge-pending'}">${o.order_status}</span>`;
+                const dateStr = new Date(o.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+                return `
+                <tr>
+                  <td><code style="font-size:0.72rem; color:var(--admin-amber)">${o.id}</code></td>
+                  <td><strong>${customer?.name || '—'}</strong></td>
+                  <td>${customer?.phone || '—'}</td>
+                  <td style="max-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:0.78rem; color:var(--admin-muted);">${itemsSummary}</td>
+                  <td><strong>₹${o.total}</strong></td>
+                  <td>${payBadge}</td>
+                  <td style="font-size:0.78rem; color:var(--admin-muted);">${dateStr}</td>
+                  <td>
+                    <select class="status-select" onchange="updateStatus('${o.id}', this.value)">
+                      <option ${o.order_status === 'Pending' ? 'selected' : ''}>Pending</option>
+                      <option ${o.order_status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                      <option ${o.order_status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                      <option ${o.order_status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                    </select>
+                  </td>
+                  <td><button class="btn-admin-gold btn-sm" onclick="viewOrder('${o.id}')">View</button></td>
+                </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`;
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                await Store.updateOrderStatus(id, status);
+                _allOrders = _allOrders.map(o => o.id === id ? { ...o, order_status: status } : o);
+                renderStats();
+                adminToast(`Status updated to ${status}`);
+            } catch (e) { adminToast('Error: ' + e.message); }
+        }
+
+        function viewOrder(id) {
+            const o = _allOrders.find(x => x.id === id);
+            if (!o) return;
+            const customer = typeof o.customer === 'string' ? JSON.parse(o.customer) : o.customer;
+            const payStr = o.payment_method === 'cod' ? '💵 Cash on Delivery' : '💳 Online Payment';
+            const stStr = o.payment_status === 'paid' ? '✅ Paid' : '💵 COD';
+            const dateStr = new Date(o.created_at).toLocaleString('en-IN');
+            document.getElementById('modal-body').innerHTML = `
+        <div class="order-detail-grid">
+          <div class="order-detail-item"><div class="label">Order ID</div><div class="value" style="font-size:0.75rem">${o.id}</div></div>
+          <div class="order-detail-item"><div class="label">Date</div><div class="value" style="font-size:0.75rem">${dateStr}</div></div>
+          <div class="order-detail-item"><div class="label">Customer</div><div class="value">${customer?.name}</div></div>
+          <div class="order-detail-item"><div class="label">Phone</div><div class="value">${customer?.phone}</div></div>
+          <div class="order-detail-item" style="grid-column:span 2"><div class="label">Address</div><div class="value" style="font-size:0.84rem">${customer?.address}, ${customer?.city}, ${customer?.state} – ${customer?.pincode}</div></div>
+          <div class="order-detail-item"><div class="label">Payment</div><div class="value">${payStr}</div></div>
+          <div class="order-detail-item"><div class="label">Pay Status</div><div class="value">${stStr}</div></div>
+          <div class="order-detail-item"><div class="label">Delivery</div><div class="value">₹${o.delivery_charge}</div></div>
+          <div class="order-detail-item"><div class="label">Total</div><div class="value" style="color:var(--admin-amber)">₹${o.total}</div></div>
+        </div>
+        <div style="margin-bottom:8px; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--admin-muted);">Items</div>
+        <div class="order-items-list">
+          ${(o.items || []).map(i => `
+            <div class="order-item-row">
+              <img src="${i.image || '../images/logo.png'}" class="order-item-img" onerror="this.src='../images/logo.png'" alt="${i.name}" />
+              <div style="flex:1"><strong>${i.name}</strong><span style="font-size:0.75rem; color:var(--admin-muted); margin-left:6px">${i.weight}g</span></div>
+              <div style="color:var(--admin-muted); font-size:0.82rem">×${i.qty}</div>
+              <div style="font-weight:700; color:var(--admin-amber)">₹${i.price * i.qty}</div>
+            </div>`).join('')}
+        </div>`;
+            document.getElementById('order-modal').classList.add('open');
+        }
+
+        function closeModal() { document.getElementById('order-modal').classList.remove('open'); }
+
+        render();
+        setInterval(render, 30000); // Auto-refresh every 30s
+    </script>
+</body>
+
+</html>

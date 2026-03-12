@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed — Masri Spices</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="images/logo.png" />
+</head>
+
+<body>
+    <div id="toast" class="toast"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo-wrap">
+                <img src="images/logo.png" alt="Masri" class="logo-img" />
+                <div class="logo-text">
+                    <span class="logo-brand">Masri</span>
+                    <span class="logo-sub">by MBJ International</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="index.html#products">Products</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="success-wrapper">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Order Confirmed!</h2>
+            <p class="success-subtitle">Thank you for choosing Masri. Your premium spices are being prepared.</p>
+            <div class="order-id-badge" id="order-id-display">Loading...</div>
+            <div class="success-details" id="order-details"></div>
+            <a href="index.html" class="btn-gold" style="width:100%; margin-bottom:12px;">Continue Shopping</a>
+            <p style="font-size:0.78rem; color:var(--brand-muted);">Questions? Email us at
+                <strong>info@mbj-international.com</strong>
+            </p>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <p>© 2026 MBJ International. Brand: Masri.</p>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms &amp; Conditions</a>
+                    <a href="shipping.html">Shipping Policy</a>
+                    <a href="refund.html">Refund Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/store.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('id');
+        const paymentId = params.get('payment_id');
+
+        async function loadOrder() {
+            if (!orderId) return;
+            let order = null;
+            try {
+                order = await Store.getOrderById(orderId);
+            } catch (e) { console.error(e); }
+
+            if (order) {
+                document.getElementById('order-id-display').textContent = 'Order ID: ' + order.id;
+                const items = order.items || [];
+                const itemList = items.map(i => `${i.name} (${i.qty} × ₹${i.price})`).join(', ');
+                const payMethod = order.payment_method === 'cod' ? '💵 Cash on Delivery' : '💳 Online Paid';
+                const payIdLine = paymentId ? `<br/>Payment ID: ${paymentId}` : '';
+                const customer = typeof order.customer === 'string' ? JSON.parse(order.customer) : order.customer;
+                document.getElementById('order-details').innerHTML = `
+          <p><strong>Customer:</strong> ${customer.name}</p>
+          <p><strong>Phone:</strong> ${customer.phone}</p>
+          <p><strong>Address:</strong> ${customer.address}, ${customer.city}, ${customer.state} – ${customer.pincode}</p>
+          <p><strong>Items:</strong> ${itemList || 'See your email'}</p>
+          <p><strong>Subtotal:</strong> ₹${order.subtotal} &nbsp;+&nbsp; Delivery: ₹${order.delivery_charge}</p>
+          <p><strong>Total Paid:</strong> ₹${order.total}</p>
+          <p><strong>Payment:</strong> ${payMethod}${payIdLine}</p>
+          <p style="margin-top:12px; color:var(--brand-gold); font-weight:600;">📦 Estimated delivery: 4–7 working days</p>`;
+            } else {
+                document.getElementById('order-id-display').textContent = orderId || '—';
+                document.getElementById('order-details').innerHTML = '<p>Your order has been placed. We will contact you shortly.</p>';
+            }
+        }
+
+        loadOrder();
+    </script>
+</body>
+
+</html>

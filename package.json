@@ -1,0 +1,17 @@
+{
+  "name": "masri-spice-store",
+  "version": "1.0.0",
+  "description": "MBJ International – Masri Spice E-Commerce Platform",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site – no build step'",
+    "lint": "echo 'No linting configured'"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.0",
+    "@vercel/postgres": "^0.10.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

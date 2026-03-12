@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login — Masri</title>
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="icon" href="../images/logo.png" />
+</head>
+
+<body class="login-body">
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="../images/logo.png" alt="Masri" />
+            </div>
+            <h1 class="login-title">Admin Panel</h1>
+            <p class="login-sub">MBJ International — Masri</p>
+            <div class="pin-display" id="pin-display">_ _ _ _ _ _ _ _ _</div>
+            <div class="pin-error" id="pin-error"></div>
+            <div class="pin-pad">
+                <button class="pin-btn" onclick="appendPin('1')">1</button>
+                <button class="pin-btn" onclick="appendPin('2')">2</button>
+                <button class="pin-btn" onclick="appendPin('3')">3</button>
+                <button class="pin-btn" onclick="appendPin('4')">4</button>
+                <button class="pin-btn" onclick="appendPin('5')">5</button>
+                <button class="pin-btn" onclick="appendPin('6')">6</button>
+                <button class="pin-btn" onclick="appendPin('7')">7</button>
+                <button class="pin-btn" onclick="appendPin('8')">8</button>
+                <button class="pin-btn" onclick="appendPin('9')">9</button>
+                <button class="pin-btn pin-clear" onclick="clearPin()">⌫</button>
+                <button class="pin-btn" onclick="appendPin('0')">0</button>
+                <button class="pin-btn pin-submit" onclick="submitPin()">→</button>
+            </div>
+            <p style="font-size:0.72rem; color:var(--admin-muted); margin-top:20px; text-align:center;">Enter your
+                9-digit admin PIN</p>
+        </div>
+    </div>
+
+    <script src="../js/store.js"></script>
+    <script>
+        if (Store.isAdminLoggedIn()) window.location.href = 'index.html';
+
+        let pin = '';
+
+        function appendPin(digit) {
+            if (pin.length >= 9) return;
+            pin += digit;
+            updateDisplay();
+            if (pin.length === 9) submitPin();
+        }
+
+        function clearPin() {
+            pin = pin.slice(0, -1);
+            updateDisplay();
+            document.getElementById('pin-error').textContent = '';
+        }
+
+        function updateDisplay() {
+            const dots = pin.split('').map(() => '●').join(' ');
+            const blanks = '_'.repeat(9 - pin.length).split('').join(' ');
+            document.getElementById('pin-display').textContent = (dots + ' ' + blanks).trim();
+        }
+
+        async function submitPin() {
+            if (!pin) return;
+            const ok = await Store.adminLogin(pin);
+            if (ok) {
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('pin-error').textContent = 'Incorrect PIN. Please try again.';
+                pin = '';
+                updateDisplay();
+            }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key >= '0' && e.key <= '9') appendPin(e.key);
+            else if (e.key === 'Backspace') clearPin();
+            else if (e.key === 'Enter') submitPin();
+        });
+    </script>
+</body>
+
+</html>

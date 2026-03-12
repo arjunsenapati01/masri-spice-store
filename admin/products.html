@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products — Masri Admin</title>
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="icon" href="../images/logo.png" />
+</head>
+
+<body>
+    <div id="admin-toast" class="admin-toast"></div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-title">➕ Add New Product</h3>
+                <button class="modal-close" onclick="closeProductModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-id" />
+                <div class="admin-form-group">
+                    <label>Product Name <span>*</span></label>
+                    <input type="text" class="admin-input" id="p-name" placeholder="e.g. Kashmiri Chili Powder" />
+                </div>
+                <div class="admin-form-group">
+                    <label>Description <span>*</span></label>
+                    <textarea class="admin-input admin-textarea" id="p-desc"
+                        placeholder="Describe the spice..."></textarea>
+                </div>
+                <div class="admin-form-row-3">
+                    <div class="admin-form-group">
+                        <label>Price (₹) <span>*</span></label>
+                        <input type="number" class="admin-input" id="p-price" placeholder="149" min="1" />
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Weight (g) <span>*</span></label>
+                        <input type="number" class="admin-input" id="p-weight" placeholder="100" min="1" />
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Stock <span>*</span></label>
+                        <input type="number" class="admin-input" id="p-stock" placeholder="50" min="0" />
+                    </div>
+                </div>
+                <div class="admin-form-group">
+                    <label>Badge (optional)</label>
+                    <input type="text" class="admin-input" id="p-badge" placeholder="e.g. Best Seller, Premium, New" />
+                </div>
+                <div class="admin-form-group" id="image-upload-group">
+                    <label>Product Image</label>
+                    <div class="img-upload-area" id="upload-area" onclick="document.getElementById('img-file').click()">
+                        <div id="upload-placeholder">📷 Click to upload product image</div>
+                        <img id="img-preview" src=""
+                            style="display:none; width:100%; max-height:180px; object-fit:contain; border-radius:8px;" />
+                        <input type="file" id="img-file" accept="image/*" style="display:none"
+                            onchange="previewImage(event)" />
+                    </div>
+                    <p id="image-hint" style="font-size:0.72rem; color:var(--admin-muted); margin-top:6px;">Upload a
+                        product image. Vercel Blob is used for storage.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-danger btn-sm" onclick="closeProductModal()">Cancel</button>
+                <button class="btn-admin-gold" id="save-btn" onclick="saveProduct()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-card" style="max-width:380px;">
+            <div class="modal-header">
+                <h3>🗑️ Delete Product</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.9rem; color:var(--admin-muted);">Are you sure you want to delete <strong
+                        id="delete-name" style="color:var(--admin-text)"></strong>? This cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-admin btn-sm" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                <img src="../images/logo.png" alt="Masri" />
+                <div>
+                    <div class="sidebar-brand">Masri</div>
+                    <div class="sidebar-sub">Admin Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">Main</div>
+                <a href="index.html" class="nav-item"><span class="nav-icon">📋</span> Orders</a>
+                <a href="products.html" class="nav-item active"><span class="nav-icon">🌶️</span> Products</a>
+                <div class="nav-group-title">Settings</div>
+                <a href="settings.html" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+                <div class="nav-group-title">Store</div>
+                <a href="../index.html" class="nav-item" target="_blank"><span class="nav-icon">🛍️</span> View
+                    Store</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="doLogout()"><span>🚪</span> Logout</button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div class="topbar-title">
+                    <h1>Products</h1>
+                    <p>Manage your spice catalog</p>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn-admin-gold" onclick="openAddModal()">➕ Add Product</button>
+                </div>
+            </div>
+            <div class="admin-content">
+                <div class="admin-table-wrap">
+                    <div class="table-toolbar">
+                        <h3>🌶️ Product Catalog</h3>
+                        <span style="font-size:0.78rem; color:var(--admin-muted)" id="product-count"></span>
+                    </div>
+                    <div id="products-table-wrap">
+                        <div class="admin-empty">
+                            <div class="empty-icon">🌶️</div>
+                            <p>Loading products…</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/store.js"></script>
+    <script>
+        if (!Store.isAdminLoggedIn()) window.location.href = 'login.html';
+
+        let editingId = null;
+        let deleteId = null;
+        let newImageFile = null;
+
+        function adminToast(msg) {
+            const t = document.getElementById('admin-toast');
+            t.innerHTML = '✓ ' + msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function doLogout() { Store.adminLogout(); window.location.href = 'login.html'; }
+
+        async function renderProducts() {
+            let products = [];
+            try { products = await Store.getProducts(); } catch (e) { console.error(e); }
+            document.getElementById('product-count').textContent = products.length + ' products';
+            const wrap = document.getElementById('products-table-wrap');
+
+            if (!products.length) {
+                wrap.innerHTML = `<div class="admin-empty"><div class="empty-icon">🌶️</div><p>No products yet. Add your first spice!</p></div>`;
+                return;
+            }
+
+            wrap.innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr><th>Image</th><th>Name</th><th>Weight</th><th>Price</th><th>Stock</th><th>Badge</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            ${products.map(p => {
+                const stockColor = p.stock === 0 ? '#e74c3c' : p.stock <= 5 ? '#e67e22' : 'var(--admin-green)';
+                return `
+                <tr>
+                  <td><img src="${p.image}" class="product-thumb" alt="${p.name}" onerror="this.src='../images/logo.png'" /></td>
+                  <td><strong>${p.name}</strong></td>
+                  <td>${p.weight}g</td>
+                  <td><strong>₹${p.price}</strong></td>
+                  <td><span style="color:${stockColor}; font-weight:700;">${p.stock}</span></td>
+                  <td>${p.badge ? `<span class="badge badge-cod">${p.badge}</span>` : '<span style="color:var(--admin-muted); font-size:0.78rem">—</span>'}</td>
+                  <td style="display:flex; gap:8px; align-items:center;">
+                    <button class="btn-admin-gold btn-sm" onclick="openEditModal('${p.id}')">✏️ Edit</button>
+                    <button class="btn-danger" onclick="openDeleteModal('${p.id}', '${p.name.replace(/'/g, "\\'")}')">🗑️</button>
+                  </td>
+                </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`;
+        }
+
+        function openAddModal() {
+            editingId = null;
+            newImageFile = null;
+            document.getElementById('modal-title').textContent = '➕ Add New Product';
+            document.getElementById('edit-id').value = '';
+            ['p-name', 'p-desc', 'p-price', 'p-weight', 'p-stock', 'p-badge'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('image-hint').textContent = 'Upload a product image. Stored in Vercel Blob.';
+            resetImagePreview();
+            document.getElementById('product-modal').classList.add('open');
+        }
+
+        async function openEditModal(id) {
+            let p = null;
+            try { p = await Store.getProductById(id); } catch (e) { }
+            if (!p) { adminToast('Product not found'); return; }
+            editingId = id;
+            newImageFile = null;
+            document.getElementById('modal-title').textContent = '✏️ Edit Product';
+            document.getElementById('edit-id').value = id;
+            document.getElementById('p-name').value = p.name;
+            document.getElementById('p-desc').value = p.description;
+            document.getElementById('p-price').value = p.price;
+            document.getElementById('p-weight').value = p.weight;
+            document.getElementById('p-stock').value = p.stock;
+            document.getElementById('p-badge').value = p.badge || '';
+            // Show existing image in preview
+            const preview = document.getElementById('img-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+            if (p.image) {
+                preview.src = p.image;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                resetImagePreview();
+            }
+            document.getElementById('image-hint').textContent = 'Click to upload a new image (optional). Leave blank to keep existing.';
+            document.getElementById('product-modal').classList.add('open');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.remove('open');
+        }
+
+        function previewImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            newImageFile = file;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const preview = document.getElementById('img-preview');
+                preview.src = ev.target.result;
+                preview.style.display = 'block';
+                document.getElementById('upload-placeholder').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetImagePreview() {
+            document.getElementById('img-preview').style.display = 'none';
+            document.getElementById('img-preview').src = '';
+            document.getElementById('upload-placeholder').style.display = 'block';
+            document.getElementById('img-file').value = '';
+            newImageFile = null;
+        }
+
+        async function saveProduct() {
+            const name = document.getElementById('p-name').value.trim();
+            const desc = document.getElementById('p-desc').value.trim();
+            const price = parseInt(document.getElementById('p-price').value);
+            const weight = parseInt(document.getElementById('p-weight').value);
+            const stock = parseInt(document.getElementById('p-stock').value);
+            const badge = document.getElementById('p-badge').value.trim();
+
+            if (!name || !desc || !price || !weight || isNaN(stock)) {
+                adminToast('Please fill all required fields ⚠️');
+                return;
+            }
+
+            const btn = document.getElementById('save-btn');
+            btn.textContent = 'Saving…'; btn.disabled = true;
+
+            try {
+                let imageUrl = undefined;
+                if (newImageFile) {
+                    adminToast('Uploading image…');
+                    imageUrl = await Store.uploadImage(newImageFile);
+                }
+
+                if (editingId) {
+                    const updates = { name, description: desc, price, weight, stock, badge };
+                    if (imageUrl) updates.image = imageUrl;
+                    await Store.updateProduct(editingId, updates);
+                    adminToast('Product updated successfully');
+                } else {
+                    await Store.addProduct({ name, description: desc, price, weight, stock, badge, image: imageUrl || '../images/logo.png' });
+                    adminToast('Product added successfully');
+                }
+
+                closeProductModal();
+                await renderProducts();
+            } catch (e) {
+                adminToast('Error: ' + e.message);
+            } finally {
+                btn.textContent = 'Save Product'; btn.disabled = false;
+            }
+        }
+
+        function openDeleteModal(id, name) {
+            deleteId = id;
+            document.getElementById('delete-name').textContent = name;
+            document.getElementById('delete-modal').classList.add('open');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').classList.remove('open');
+            deleteId = null;
+        }
+
+        async function confirmDelete() {
+            if (!deleteId) return;
+            try {
+                await Store.deleteProduct(deleteId);
+                adminToast('Product deleted');
+            } catch (e) { adminToast('Error: ' + e.message); }
+            closeDeleteModal();
+            await renderProducts();
+        }
+
+        renderProducts();
+    </script>
+</body>
+
+</html>

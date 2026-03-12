@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shipping Policy — Masri | MBJ International</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="images/logo.png" />
+</head>
+
+<body>
+    <div id="toast" class="toast"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo-wrap">
+                <img src="images/logo.png" alt="Masri" class="logo-img" />
+                <div class="logo-text"><span class="logo-brand">Masri</span><span class="logo-sub">by MBJ
+                        International</span></div>
+            </a>
+            <nav class="nav-menu"><a href="index.html">Home</a><a href="index.html#products">Products</a><a
+                    href="contact.html">Contact</a></nav>
+            <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-count" id="cart-count"
+                    style="display:none">0</span></a>
+        </div>
+    </header>
+
+    <div class="page-banner">
+        <h1>Shipping Policy</h1>
+        <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Shipping Policy</span></div>
+    </div>
+
+    <div class="policy-content">
+        <p style="color:var(--brand-muted); margin-bottom:24px;"><strong>Effective Date: March 28, 2025</strong></p>
+        <p>At MBJ International, we are committed to delivering your products safely, securely, and on time.</p>
+
+        <h2>1. Order Processing Time</h2>
+        <p>All orders are processed within 1–2 working days (excluding weekends and public holidays). Orders placed
+            after 5:00 PM IST will be processed on the next business day. During high-volume periods (festive seasons,
+            sales), processing may take slightly longer.</p>
+
+        <h2>2. Shipping Charges</h2>
+        <div class="highlight">
+            Standard Shipping: <strong>₹50 per order</strong><br />
+            Free Shipping: <strong>Available on orders above ₹800</strong><br />
+            (Shipping charges, if applicable, will appear at checkout before payment.)
+        </div>
+
+        <h2>3. Delivery Time & Estimates</h2>
+        <ul>
+            <li><strong>Metro Cities & Tier-1 Areas:</strong> 4–7 working days</li>
+            <li><strong>Other Cities & Semi-Urban Areas:</strong> 5–9 working days</li>
+            <li><strong>Remote / Interior Regions:</strong> 7–12 working days</li>
+        </ul>
+        <p>Delivery times may vary due to weather conditions, courier workload, festivals, or other unforeseen delays.
+        </p>
+
+        <h2>4. Tracking Information</h2>
+        <p>Once shipped, you will receive an SMS or email with the tracking number. You can track your shipment using
+            the courier tracking link provided.</p>
+
+        <h2>5. Address & Delivery Issues</h2>
+        <p>Please provide a complete and accurate shipping address at checkout. MBJ International is not responsible for
+            delays or failed deliveries caused by incorrect or incomplete addresses. If a package is returned due to
+            incorrect address, additional charges may apply for re-shipping.</p>
+
+        <h2>6. Delays & Force Majeure</h2>
+        <p>MBJ International is not liable for delays caused by natural disasters, political disruptions or strikes,
+            courier partner delays, government restrictions, or unexpected logistics challenges.</p>
+
+        <h2>7. Lost, Stolen, or Damaged Shipments</h2>
+        <p>If your package is marked delivered but you have not received it, contact us within 48 hours. For damaged or
+            tampered products, provide a clear, uncut unboxing video as per our <a href="refund.html"
+                style="color:var(--brand-crimson);">Refund Policy</a>.</p>
+
+        <h2>8. International Shipping</h2>
+        <p>At this time, we do not offer international shipping. Orders are delivered only within India.</p>
+
+        <h2>9. Contact Information</h2>
+        <p>MBJ International<br />Plot No. 86/354, Raghunathpur, Sisupalgarh,<br />Bhubaneswar, Khordha, Odisha –
+            751002<br />📧 info@mbj-international.com &nbsp;|&nbsp; 📞 +91 7205557901</p>
+    </div>
+
+    <div class="newsletter">
+        <h3 class="newsletter-title">Join the Masri Circle</h3>
+        <p class="newsletter-subtitle">Get exclusive deals and early access to new products.</p>
+        <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="Your email address" />
+            <button type="button" onclick="showToast('Thank you for subscribing!','💌')">Subscribe</button>
+        </form>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <p>© 2026 MBJ International. All rights reserved. Brand: Masri.</p>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="shipping.html">Shipping Policy</a>
+                    <a href="refund.html">Refund Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/store.js"></script>
+    <script>updateCartBadge();</script>
+</body>
+
+</html>
