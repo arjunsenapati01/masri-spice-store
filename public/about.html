@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Maa श्री Spices</title>
+  <meta name="description" content="Discover the story, mission, and people behind Maa श्री premium Indian spices." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/maa_shree_logo.png" />
+</head>
+
+<body>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="images/maa_shree_logo.png" alt="Maa श्री Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-brand">Maa श्री</span>
+          <span class="logo-sub">by MBJ International</span>
+        </div>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About Us</a>
+        <a href="index.html#products">Products</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="cart.html" class="cart-btn" id="cart-btn" aria-label="View Cart">
+        🛒
+        <span class="cart-count" id="cart-count" style="display:none">0</span>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="index.html#products">Products</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="mobile-footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="shipping.html">Shipping</a>
+      <a href="refund.html">Refund</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+
+  <!-- Hero / Banner -->
+  <section class="page-banner about-hero" style="padding: 100px 2rem;">
+    <div class="hero-eyebrow">✦ The Journey</div>
+    <h1>The Art of Spice Redefined</h1>
+    <p style="max-width: 600px; margin: 0 auto; color: rgba(255,255,255,0.8); font-size: 1.1rem; line-height: 1.8;">
+      We believe that the soul of Indian cooking lies in its spices. From hand-picked harvests to stone-ground perfection, we pour our passion into every blend. Let us take your culinary creations to majestic heights.
+    </p>
+  </section>
+
+  <!-- Brand Story -->
+  <section class="section">
+    <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+      <div>
+        <h2 class="section-title" style="margin-bottom: 24px;">Born in the spice heartlands of India…</h2>
+        <p style="color: var(--brand-muted); font-size: 1.05rem; margin-bottom: 16px; line-height: 1.8;">
+          Maa श्री was born with a singular vision: to bring the unadulterated, rich, and intensely aromatic spices of India directly to kitchens worldwide. We realized that modern spice blends had lost the authentic magic that our grandmothers used to create in their pestle and mortars.
+        </p>
+        <p style="color: var(--brand-muted); font-size: 1.05rem; margin-bottom: 16px; line-height: 1.8;">
+          Driven by the pursuit of perfection, our team traveled across robust spice farms, forging relationships with generational farmers. We ensured that every chili, cumin seed, and turmeric root was naturally grown, free of chemical processing, and harvested at peak potency.
+        </p>
+        <p style="font-weight: 600; color: var(--brand-gold);">
+          — MBJ International
+        </p>
+      </div>
+      <div style="position: relative;">
+        <!-- Placeholder for story image -->
+        <div style="background: var(--grad-card); aspect-ratio: 4/3; border-radius: var(--radius-lg); padding: 40px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); border: 1px solid rgba(200, 134, 10, 0.15);">
+          <span style="font-size: 4rem; opacity: 0.1;">🌿</span>
+        </div>
+        <div style="position: absolute; bottom: -24px; left: -24px; background: var(--grad-hero); color: var(--brand-amber); padding: 24px 32px; border-radius: var(--radius-md); box-shadow: var(--shadow-gold);">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; line-height: 1;">100%</div>
+          <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Pure Tradition</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Values -->
+  <section class="section" style="background: rgba(200, 134, 10, 0.04);">
+    <div class="container text-center">
+      <div class="section-header">
+        <div class="section-eyebrow">✦ Our Core Pillars</div>
+        <h2 class="section-title">Mission & <span>Values</span></h2>
+        <p class="section-desc">The principles that guide every grain of spice we produce.</p>
+      </div>
+      <div class="features-grid">
+        <div class="product-card" style="padding: 40px 24px; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">🌱</div>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--brand-dark); margin-bottom: 12px;">Pure</h3>
+          <p style="color: var(--brand-muted); font-size: 0.9rem;">No additives, colors, or artificial preservatives. Just the raw, untempered essence of nature's finest ingredients.</p>
+        </div>
+        <div class="product-card" style="padding: 40px 24px; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">👑</div>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--brand-dark); margin-bottom: 12px;">Authentic</h3>
+          <p style="color: var(--brand-muted); font-size: 0.9rem;">Rooted in deep-seated Indian culinary heritage. We use traditional grinding techniques to preserve volatile oils.</p>
+        </div>
+        <div class="product-card" style="padding: 40px 24px; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">💎</div>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--brand-dark); margin-bottom: 12px;">Premium</h3>
+          <p style="color: var(--brand-muted); font-size: 0.9rem;">From the beautiful glass-like packaging to the vibrant rich hues of the spices, delivering a world-class luxury feeling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy Quote -->
+  <section class="page-banner" style="background: var(--brand-deep); color: var(--brand-cream); padding: 80px 2rem;">
+    <div class="container" style="text-align: center;">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--brand-gold); line-height: 0.5; margin-bottom: 20px;">"</div>
+      <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; font-style: italic; max-width: 800px; margin: 0 auto; line-height: 1.4;">
+        A great dish is composed of memories. We provide the colors with which you paint those culinary masterpieces.
+      </h2>
+    </div>
+  </section>
+
+  <!-- Founder/Team Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">✦ Leadership</div>
+        <h2 class="section-title">The People Behind <span>Maa श्री</span></h2>
+      </div>
+      <div style="display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;">
+        
+        <!-- Founder Card -->
+        <div class="bio-card" style="background: var(--grad-card); border: 1px solid rgba(200,134,10,0.15); border-radius: var(--radius-lg); padding: 32px; max-width: 320px; text-align: center; box-shadow: var(--shadow-md);">
+          <div class="bio-img-wrap" style="width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 3px solid var(--brand-gold); background: #eee;">
+            <img src="https://ui-avatars.com/api/?name=Arjun+S&background=C8860A&color=fff&size=140" alt="Founder" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 4px;">Arjun Senapati</h3>
+          <div style="font-size: 0.75rem; color: var(--brand-gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 16px;">Founder, MBJ International</div>
+          <p style="color: var(--brand-muted); font-size: 0.9rem;">With a deep passion for e-commerce and premium branding, Arjun established Maa श्री to bridge the gap between rural Indian spice farms and the modern luxury kitchen.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-brand">Maa श्री</span>
+          <p>Premium spice powders crafted with passion by MBJ International. Bringing the finest flavours from India's
+            spice heartlands to your kitchen.</p>
+          <p>📧 info@mbj-international.com</p>
+          <p>📞 +91 7205557901</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="index.html#products">All Products</a>
+          <a href="recipes.html">Recipes</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Policies</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms & Conditions</a>
+          <a href="shipping.html">Shipping Policy</a>
+          <a href="refund.html">Refund Policy</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 MBJ International. All rights reserved. Brand: Maa श्री.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script>
+    // Update Cart Badge globally
+    async function init() {
+      const msToggle = document.getElementById('mobile-toggle');
+      const msMenu = document.getElementById('mobile-menu');
+      if (msToggle && msMenu) {
+        msToggle.addEventListener('click', () => {
+          msToggle.classList.toggle('active');
+          msMenu.classList.toggle('active');
+          document.body.style.overflow = msMenu.classList.contains('active') ? 'hidden' : '';
+        });
+      }
+
+      // Sync Cart icon
+      const len = Store.getCart().length;
+      const countEl = document.getElementById('cart-count');
+      if (countEl) {
+        countEl.textContent = len;
+        countEl.style.display = len > 0 ? 'flex' : 'none';
+      }
+    }
+    init();
+  </script>
+</body>
+
+</html>

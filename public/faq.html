@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Maa श्री Spices</title>
+  <meta name="description" content="Frequently Asked Questions about our spices, shipping, and return policies." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/maa_shree_logo.png" />
+  <style>
+    /* FAQ Specific Accordion Styles integration with global design */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-section {
+      margin-bottom: 48px;
+    }
+
+    .faq-category-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      color: var(--brand-dark);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(200, 134, 10, 0.2);
+    }
+
+    .accordion-item {
+      background: var(--brand-card);
+      border: 1px solid rgba(200, 134, 10, 0.15);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: all var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .accordion-header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--brand-dark);
+      font-size: 1.05rem;
+      transition: background var(--transition-fast);
+    }
+
+    .accordion-header:hover {
+      background: rgba(200, 134, 10, 0.05);
+      color: var(--brand-crimson);
+    }
+
+    .accordion-icon {
+      color: var(--brand-gold);
+      font-size: 1.2rem;
+      transition: transform var(--transition);
+    }
+
+    .accordion-content {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      color: var(--brand-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      background: rgba(253, 240, 224, 0.2);
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .accordion-item.active .accordion-content {
+      padding: 0 24px 20px;
+      max-height: 500px; /* arbitrary high number */
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-item.active {
+      border-color: var(--brand-gold);
+      box-shadow: var(--shadow-sm);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="images/maa_shree_logo.png" alt="Maa श्री Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-brand">Maa श्री</span>
+          <span class="logo-sub">by MBJ International</span>
+        </div>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="index.html#products">Products</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="faq.html" class="active">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="cart.html" class="cart-btn" id="cart-btn" aria-label="View Cart">
+        🛒
+        <span class="cart-count" id="cart-count" style="display:none">0</span>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="index.html#products">Products</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="mobile-footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="shipping.html">Shipping</a>
+      <a href="refund.html">Refund</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <h1>Frequently Asked Questions</h1>
+    <p>Find answers to common questions about our products, shipping, and more.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> <span>/</span> FAQ
+    </div>
+  </section>
+
+  <!-- FAQ Content -->
+  <section class="section" style="background: var(--brand-cream);">
+    <div class="container faq-container" id="faq-container">
+
+      <!-- Section: About Products -->
+      <div class="faq-section">
+        <h2 class="faq-category-title">About Our Spices</h2>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Are Maa श्री spices 100% natural?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Yes! All our spices are entirely natural, free from artificial colors, preservatives, and MSG. We source them directly from fields where they grow naturally under traditional farming practices.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Where do your spices come from?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Our spices are sourced from indigenous farms across India, in regions renowned for cultivating the most authentic and high-quality varieties.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            What is the shelf life of your spice powders?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Generally, our ground spices have a shelf life of 12 to 18 months from the date of packing when stored properly in a cool, dry place away from direct sunlight.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Are your products gluten-free?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Yes, all our single-ingredient spice powders (like coriander, turmeric, chili) are naturally gluten-free.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Do you sell whole spices?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Currently, our flagship product range focuses on ultra-premium, stone-ground fine powders. However, we are planning to introduce whole spice selections in the near future.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Orders & Shipping -->
+      <div class="faq-section">
+        <h2 class="faq-category-title">Orders & Shipping</h2>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How long does delivery take?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">For metro cities, delivery usually takes 2-3 business days. For other regions across India, expect your package within 4-7 business days depending on accessibility.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Is Free Shipping available?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Yes! We provide complimentary free shipping on all orders above our cart threshold (typically ₹800). Orders below that will be charged a standard delivery fee.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Do you offer Cash on Delivery (COD)?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Yes, we offer Cash on Delivery across most pin codes in India. A nominal convenience fee may be added to COD orders depending on your region.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How do I track my order?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Once your order is processed and shipped, you will receive an SMS and email containing the courier tracking id and a link to monitor your package.</p>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Can I change my address after placing an order?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Address details can be updated if the order hasn't been processed for shipping yet. Please email our support team immediately at info@mbj-international.com if you need any changes made.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Returns & Refunds -->
+      <div class="faq-section">
+        <h2 class="faq-category-title">Returns & Refunds</h2>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            What is your return policy?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Because spices are perishable food items, we normally do not accept returns. However, if you receive a damaged, expired, or incorrect item, we will happily offer a replacement or refund.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            My package arrived damaged. What should I do?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Please take a photo of the damaged package and its contents immediately and email it to us within 48 hours of delivery. Our customer support will arrange a prompt replacement.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How long do refunds take to process?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Refunds for canceled or defective prepaid orders usually take 5-7 business days to reflect back in your original payment method via our gateway (Razorpay).</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            I didn't like the taste. Can I get a refund?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Taste is subjective, and we cannot blindly offer refunds based on preference for opened packages. However, we take feedback very seriously! Please let us know, and we'll see how we can make it right.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Wholesale & Corporate -->
+      <div class="faq-section">
+        <h2 class="faq-category-title">Wholesale & Corporate</h2>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Do you sell in bulk for restaurants?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Yes! We supply high-quality commercial quantities of our spices to restaurants, cafes, and catering businesses. Please contact us through our contact form with your business requirements.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Are there discounts for wholesale orders?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">Absolutely. Significant bulk discounts apply based on the volume of the order. Our wholesale team can provide a custom quotation.</p>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Can we re-brand your spices?
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p style="padding-top: 10px;">White labeling and customized packaging services are evaluated selectively. Please reach out to our corporate team via info@mbj-international.com to discuss partnership opportunities.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-brand">Maa श्री</span>
+          <p>Premium spice powders crafted with passion by MBJ International. Bringing the finest flavours from India's
+            spice heartlands to your kitchen.</p>
+          <p>📧 info@mbj-international.com</p>
+          <p>📞 +91 7205557901</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="index.html#products">All Products</a>
+          <a href="recipes.html">Recipes</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Policies</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms & Conditions</a>
+          <a href="shipping.html">Shipping Policy</a>
+          <a href="refund.html">Refund Policy</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 MBJ International. All rights reserved. Brand: Maa श्री.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script>
+    function init() {
+      // Mobile toggle
+      const msToggle = document.getElementById('mobile-toggle');
+      const msMenu = document.getElementById('mobile-menu');
+      if (msToggle && msMenu) {
+        msToggle.addEventListener('click', () => {
+          msToggle.classList.toggle('active');
+          msMenu.classList.toggle('active');
+          document.body.style.overflow = msMenu.classList.contains('active') ? 'hidden' : '';
+        });
+      }
+
+      // Sync Cart icon
+      const len = Store.getCart().length;
+      const countEl = document.getElementById('cart-count');
+      if (countEl) {
+        countEl.textContent = len;
+        countEl.style.display = len > 0 ? 'flex' : 'none';
+      }
+
+      // Accordion Script
+      const accordionItems = document.querySelectorAll('.accordion-item');
+      accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        header.addEventListener('click', () => {
+          // Close others
+          accordionItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+            }
+          });
+          // Toggle current
+          item.classList.toggle('active');
+        });
+      });
+    }
+    init();
+  </script>
+</body>
+
+</html>
