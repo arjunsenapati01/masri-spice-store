@@ -60,9 +60,16 @@
             </div>
             <script>
                 function updateCountdown() {
-                    const today = new Date(); // 2026-03-14
-                    const expiryDate = new Date();
-                    expiryDate.setFullYear(today.getFullYear() + 3);
+                    let expiryTimestamp = localStorage.getItem('website_expiry_date');
+                    let expiryDate;
+                    if (!expiryTimestamp) {
+                        const today = new Date();
+                        expiryDate = new Date();
+                        expiryDate.setFullYear(today.getFullYear() + 3);
+                        localStorage.setItem('website_expiry_date', expiryDate.getTime());
+                    } else {
+                        expiryDate = new Date(parseInt(expiryTimestamp));
+                    }
                     
                     document.getElementById('expiry-date-display').innerText = expiryDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
                     
@@ -86,9 +93,12 @@
                 updateCountdown();
             </script>
             <div class="admin-topbar">
-                <div class="topbar-title">
-                    <h1>Orders</h1>
-                    <p>Manage and track customer orders</p>
+                <div class="topbar-title" style="display: flex; align-items: center; gap: 15px;">
+                    <button id="admin-mobile-menu-btn" class="admin-mobile-toggle" style="background: none; border: none; font-size: 1.8rem; color: var(--admin-amber); cursor: pointer;">☰</button>
+                    <div>
+                        <h1>Orders</h1>
+                        <p>Manage and track customer orders</p>
+                    </div>
                 </div>
                 <div class="topbar-actions">
                     <span class="topbar-badge">🟢 Live</span>
@@ -281,6 +291,13 @@
         }
 
         function closeModal() { document.getElementById('order-modal').classList.remove('open'); }
+
+        const adminMenuBtn = document.getElementById('admin-mobile-menu-btn');
+        if(adminMenuBtn) {
+            adminMenuBtn.addEventListener('click', () => {
+                document.querySelector('.admin-sidebar').classList.toggle('open');
+            });
+        }
 
         render();
         setInterval(render, 30000); // Auto-refresh every 30s

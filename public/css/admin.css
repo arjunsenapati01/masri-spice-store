@@ -1021,62 +1021,37 @@ textarea {
     }
 }
 
+.admin-mobile-toggle {
+    display: none;
+}
+
 /* ─── Responsive Adjustments ─────────────────────────────────────── */
 @media (max-width: 900px) {
+    .admin-mobile-toggle {
+        display: block !important;
+    }
+
     .admin-layout {
-        grid-template-columns: 1fr;
-        display: flex;
-        flex-direction: column;
+        display: block;
     }
 
     .admin-sidebar {
-        height: auto;
-        position: relative;
-        flex-direction: row;
-        flex-wrap: wrap;
-        border-right: none;
-        border-bottom: 1px solid var(--admin-border);
-        padding-bottom: 10px;
+        position: fixed;
+        left: -280px;
+        top: 0;
+        width: 260px;
+        height: 100vh;
+        z-index: 9999;
+        transition: left 0.3s ease;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
     }
 
-    .sidebar-logo {
-        flex: 1 1 100%;
-        border-bottom: 1px solid var(--admin-border);
-    }
-
-    .sidebar-nav {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        flex-wrap: wrap;
-        padding: 10px;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .nav-group-title {
-        display: block;
-        flex: 1 1 100%;
-        text-align: center;
-        margin-top: 5px;
-        margin-bottom: 0px;
-    }
-
-    .sidebar-footer {
-        flex: 1 1 100%;
-        border-top: none;
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .logout-btn {
-        width: auto;
-        padding-left: 30px;
-        padding-right: 30px;
+    .admin-sidebar.open {
+        left: 0;
     }
 
     .admin-topbar {
+        padding: 15px 20px;
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
@@ -1085,6 +1060,10 @@ textarea {
     .topbar-actions {
         width: 100%;
         justify-content: flex-end;
+    }
+
+    .admin-content {
+        padding: 15px;
     }
 
     .stats-grid {
