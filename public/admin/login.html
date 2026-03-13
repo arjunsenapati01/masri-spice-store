@@ -58,9 +58,9 @@
         }
 
         function updateDisplay() {
-            const dots = pin.split('').map(() => '●').join(' ');
+            const digits = pin.split('').join(' ');
             const blanks = '_'.repeat(9 - pin.length).split('').join(' ');
-            document.getElementById('pin-display').textContent = (dots + ' ' + blanks).trim();
+            document.getElementById('pin-display').textContent = (digits + ' ' + blanks).trim();
         }
 
         async function submitPin() {
