@@ -11,14 +11,16 @@
 
 <body class="login-body">
     <div class="login-wrapper">
-        <div class="login-card">
+        <div class="login-card" id="login-card">
             <div class="login-logo">
                 <img src="../images/logo.png" alt="Masri" />
             </div>
             <h1 class="login-title">Admin Panel</h1>
-            <p class="login-sub">MBJ International — Masri</p>
+            <p class="login-sub">Masri Premium Spices</p>
+
             <div class="pin-display" id="pin-display">_ _ _ _ _ _ _ _ _</div>
             <div class="pin-error" id="pin-error"></div>
+
             <div class="pin-pad">
                 <button class="pin-btn" onclick="appendPin('1')">1</button>
                 <button class="pin-btn" onclick="appendPin('2')">2</button>
@@ -33,8 +35,8 @@
                 <button class="pin-btn" onclick="appendPin('0')">0</button>
                 <button class="pin-btn pin-submit" onclick="submitPin()">→</button>
             </div>
-            <p style="font-size:0.72rem; color:var(--admin-muted); margin-top:20px; text-align:center;">Enter your
-                9-digit admin PIN</p>
+
+            <p class="login-hint">Enter your 9-digit admin security PIN</p>
         </div>
     </div>
 
@@ -65,13 +67,25 @@
 
         async function submitPin() {
             if (!pin) return;
-            const ok = await Store.adminLogin(pin);
-            if (ok) {
-                window.location.href = '/admin';
-            } else {
-                document.getElementById('pin-error').textContent = 'Incorrect PIN. Please try again.';
-                pin = '';
-                updateDisplay();
+            const card = document.getElementById('login-card');
+            const error = document.getElementById('pin-error');
+
+            error.textContent = '';
+            card.classList.remove('shake');
+
+            try {
+                const ok = await Store.adminLogin(pin);
+                if (ok) {
+                    window.location.href = '/admin';
+                } else {
+                    card.classList.add('shake');
+                    error.textContent = 'Invalid PIN. Please try again.';
+                    pin = '';
+                    updateDisplay();
+                    setTimeout(() => card.classList.remove('shake'), 400);
+                }
+            } catch (e) {
+                error.textContent = 'System error. Please try again later.';
             }
         }
 

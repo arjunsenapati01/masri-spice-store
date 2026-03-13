@@ -814,3 +814,189 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+
+/* ─── Premium Login Redesign ─────────────────────────────────────── */
+.login-body {
+    background: radial-gradient(circle at center, #1A1D27 0%, #0F1117 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 440px;
+    z-index: 10;
+}
+
+.login-card {
+    background: rgba(26, 29, 39, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(200, 134, 10, 0.2);
+    border-radius: 32px;
+    padding: 48px 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(200, 134, 10, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.login-logo {
+    margin-bottom: 24px;
+}
+
+.login-logo img {
+    height: 64px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(200, 134, 10, 0.3));
+}
+
+.login-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--admin-text);
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.login-sub {
+    font-size: 0.85rem;
+    color: var(--admin-amber);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    opacity: 0.8;
+}
+
+.pin-display {
+    background: rgba(15, 17, 23, 0.6);
+    border: 1px solid rgba(200, 134, 10, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    font-size: 1.5rem;
+    letter-spacing: 8px;
+    color: var(--admin-amber);
+    margin-bottom: 8px;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pin-error {
+    color: #FF4B2B;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    min-height: 1.2rem;
+}
+
+.pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.pin-btn {
+    aspect-ratio: 1/1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--admin-text);
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.pin-btn:hover {
+    background: rgba(200, 134, 10, 0.15);
+    border-color: rgba(200, 134, 10, 0.4);
+    color: var(--admin-amber);
+    transform: scale(1.05);
+}
+
+.pin-btn:active {
+    transform: scale(0.95);
+    background: rgba(200, 134, 10, 0.25);
+}
+
+.pin-btn.pin-clear {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1rem;
+}
+
+.pin-btn.pin-submit {
+    background: linear-gradient(135deg, var(--admin-gold), #E67E22);
+    color: #1A0500;
+    border: none;
+}
+
+.pin-btn.pin-submit:hover {
+    box-shadow: 0 0 20px rgba(200, 134, 10, 0.4);
+    transform: scale(1.05) rotate(5deg);
+}
+
+.login-hint {
+    font-size: 0.75rem;
+    color: var(--admin-muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    75% {
+        transform: translateX(8px);
+    }
+}
+
+.shake {
+    animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 32px 24px;
+        border-radius: 24px;
+    }
+
+    .pin-pad {
+        gap: 12px;
+    }
+
+    .pin-btn {
+        font-size: 1.1rem;
+    }
+}
