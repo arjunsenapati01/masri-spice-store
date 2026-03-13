@@ -330,7 +330,14 @@
             container.innerHTML = `
         <div class="product-detail-grid">
           <div class="detail-image-wrap">
-            <img src="${product.image}" alt="${product.name}" onerror="this.src='images/maa_shree_logo.png'" />
+            <img class="main-image" id="main-product-img" src="${(product.image && Array.isArray(product.image) && product.image.length > 0) ? product.image[0] : 'images/logo.png'}" alt="${product.name}" onerror="this.src='images/maa_shree_logo.png'" />
+            ${(product.image && Array.isArray(product.image) && product.image.length > 1) ? `
+            <div class="thumbnail-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto;">
+              ${product.image.map((img, i) => `
+                <img src="${img}" style="width:70px; height:70px; object-fit:cover; border-radius:8px; cursor:pointer; border: 2px solid ${i === 0 ? 'var(--brand-gold)' : 'transparent'}; transition: 0.2s;" onclick="document.getElementById('main-product-img').src='${img}'; document.querySelectorAll('.thumbnail-gallery img').forEach(el=>el.style.border='2px solid transparent'); this.style.border='2px solid var(--brand-gold)';" />
+              `).join('')}
+            </div>
+            ` : ''}
           </div>
           <div class="detail-content">
             ${product.badge ? `<div class="detail-badge">${product.badge}</div>` : ''}
@@ -388,7 +395,7 @@
             grid.innerHTML = related.map(p => `
         <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer">
           <div class="product-image-wrap">
-            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='images/maa_shree_logo.png'" />
+            <img src="${(p.image && Array.isArray(p.image) && p.image.length > 0) ? p.image[0] : 'images/logo.png'}" alt="${p.name}" loading="lazy" onerror="this.src='images/maa_shree_logo.png'" />
           </div>
           <div class="product-info">
             <h3 class="product-name">${p.name}</h3>

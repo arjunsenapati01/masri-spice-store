@@ -15,7 +15,14 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             const { rows } = await sql`SELECT * FROM products WHERE id = ${id}`;
             if (!rows.length) return res.status(404).json({ error: 'Product not found' });
-            return res.status(200).json(rows[0]);
+            let p = rows[0];
+            try {
+                p.image = JSON.parse(p.image);
+                if (!Array.isArray(p.image)) p.image = [p.image];
+            } catch(e) {
+                p.image = p.image ? [p.image] : [];
+            }
+            return res.status(200).json(p);
         }
 
         if (req.method === 'PUT') {
@@ -25,9 +32,9 @@ export default async function handler(req, res) {
             const n = name !== undefined ? name : null;
             const d = description !== undefined ? description : null;
             const w = weight !== undefined ? weight : null;
-            const p = price !== undefined ? price : null;
+            const pr = price !== undefined ? price : null;
             const s = stock !== undefined ? stock : null;
-            const img = image !== undefined ? image : null;
+            const img = image !== undefined ? JSON.stringify(Array.isArray(image) ? image : [image]) : null;
             const bnd = badge !== undefined ? badge : null;
             const ben = benefits !== undefined ? benefits : null;
 
@@ -36,7 +43,7 @@ export default async function handler(req, res) {
           name        = COALESCE(${n}, name),
           description = COALESCE(${d}, description),
           weight      = COALESCE(${w}, weight),
-          price       = COALESCE(${p}, price),
+          price       = COALESCE(${pr}, price),
           stock       = COALESCE(${s}, stock),
           image       = COALESCE(${img}, image),
           badge       = COALESCE(${bnd}, badge),
@@ -44,7 +51,14 @@ export default async function handler(req, res) {
         WHERE id = ${id}
         RETURNING *`;
             if (!rows.length) return res.status(404).json({ error: 'Product not found' });
-            return res.status(200).json(rows[0]);
+            let p = rows[0];
+            try {
+                p.image = JSON.parse(p.image);
+                if (!Array.isArray(p.image)) p.image = [p.image];
+            } catch(e) {
+                p.image = p.image ? [p.image] : [];
+            }
+            return res.status(200).json(p);
         }
 
         if (req.method === 'DELETE') {

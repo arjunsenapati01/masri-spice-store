@@ -6,13 +6,13 @@
 
 // ── Embedded defaults (used as fallback when API is unavailable) ──────────────
 const DEFAULT_PRODUCTS = [
-  { id: 'p1', name: 'Red Chili Powder', description: 'Intensely vibrant and fiery, our Red Chili Powder adds authentic heat and rich colour to curries, marinades, and spice blends. Sourced from premium sun-dried red chilies.', weight: 100, price: 149, stock: 50, image: 'images/products/chili.png', badge: 'Best Seller', benefits: '• Boosts metabolism\n• Rich in Vitamin C\n• Helps clear congestion\n• Natural pain reliever' },
-  { id: 'p2', name: 'Turmeric Powder', description: 'Golden, earthy, and deeply aromatic. Our pure Turmeric Powder is rich in natural curcumin — the cornerstone of every Indian kitchen and Ayurvedic tradition.', weight: 100, price: 129, stock: 60, image: 'images/products/turmeric.png', badge: '', benefits: '• Powerful anti-inflammatory\n• Strong antioxidant\n• Improves brain function\n• Boosts immunity' },
-  { id: 'p3', name: 'Cumin Powder', description: 'Warm, nutty, and slightly smoky — our Cumin Powder brings depth and complexity to dals, biryanis, and raitas. Made from freshly ground roasted cumin seeds.', weight: 100, price: 139, stock: 45, image: 'images/products/cumin.png', badge: '', benefits: '• Aids digestion\n• Rich source of iron\n• May help with diabetes\n• Improves blood cholesterol' },
-  { id: 'p4', name: 'Coriander Powder', description: 'Mild, citrusy, and fragrant. Our Coriander Powder is the foundation of most spice blends — adding a gentle warmth and depth to every dish it touches.', weight: 100, price: 119, stock: 55, image: 'images/products/coriander.png', badge: '', benefits: '• Promotes heart health\n• Good for skin and hair\n• Improves kidney function\n• Regulates blood sugar' },
-  { id: 'p5', name: 'Garam Masala', description: 'The crown jewel of Indian spices. Our signature Garam Masala is a perfectly balanced blend of 12 aromatic whole spices — adding extraordinary warmth and complexity.', weight: 100, price: 189, stock: 40, image: 'images/products/garam-masala.png', badge: 'Premium', benefits: '• Rich in antioxidants\n• Enhances digestive health\n• Boosts thermogenesis/metabolism\n• Fights bloating and gas' },
-  { id: 'p6', name: 'Black Pepper Powder', description: 'Bold, sharp, and intensely pungent. Our freshly ground Black Pepper Powder adds a classic heat and sophisticated spice to every dish.', weight: 100, price: 169, stock: 35, image: 'images/products/black-pepper.png', badge: '', benefits: '• High in anti-inflammatory properties\n• Promotes nutrient absorption\n• May help with weight loss\n• Supports gut health' },
-  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Maa श्री Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: 'images/products/cardamom.png', badge: 'Luxury', benefits: '• Natural breath freshener\n• Lowers blood pressure\n• Anti-bacterial properties\n• Aids in relaxation and stress relief' },
+  { id: 'p1', name: 'Red Chili Powder', description: 'Intensely vibrant and fiery, our Red Chili Powder adds authentic heat and rich colour to curries, marinades, and spice blends. Sourced from premium sun-dried red chilies.', weight: 100, price: 149, stock: 50, image: '["/images/products/chili.png"]', badge: 'Best Seller', benefits: '• Boosts metabolism\n• Rich in Vitamin C\n• Helps clear congestion\n• Natural pain reliever' },
+  { id: 'p2', name: 'Turmeric Powder', description: 'Golden, earthy, and deeply aromatic. Our pure Turmeric Powder is rich in natural curcumin — the cornerstone of every Indian kitchen and Ayurvedic tradition.', weight: 100, price: 129, stock: 60, image: '["/images/products/turmeric.png"]', badge: '', benefits: '• Powerful anti-inflammatory\n• Strong antioxidant\n• Improves brain function\n• Boosts immunity' },
+  { id: 'p3', name: 'Cumin Powder', description: 'Warm, nutty, and slightly smoky — our Cumin Powder brings depth and complexity to dals, biryanis, and raitas. Made from freshly ground roasted cumin seeds.', weight: 100, price: 139, stock: 45, image: '["/images/products/cumin.png"]', badge: '', benefits: '• Aids digestion\n• Rich source of iron\n• May help with diabetes\n• Improves blood cholesterol' },
+  { id: 'p4', name: 'Coriander Powder', description: 'Mild, citrusy, and fragrant. Our Coriander Powder is the foundation of most spice blends — adding a gentle warmth and depth to every dish it touches.', weight: 100, price: 119, stock: 55, image: '["/images/products/coriander.png"]', badge: '', benefits: '• Promotes heart health\n• Good for skin and hair\n• Improves kidney function\n• Regulates blood sugar' },
+  { id: 'p5', name: 'Garam Masala', description: 'The crown jewel of Indian spices. Our signature Garam Masala is a perfectly balanced blend of 12 aromatic whole spices — adding extraordinary warmth and complexity.', weight: 100, price: 189, stock: 40, image: '["/images/products/garam-masala.png"]', badge: 'Premium', benefits: '• Rich in antioxidants\n• Enhances digestive health\n• Boosts thermogenesis/metabolism\n• Fights bloating and gas' },
+  { id: 'p6', name: 'Black Pepper Powder', description: 'Bold, sharp, and intensely pungent. Our freshly ground Black Pepper Powder adds a classic heat and sophisticated spice to every dish.', weight: 100, price: 169, stock: 35, image: '["/images/products/black-pepper.png"]', badge: '', benefits: '• High in anti-inflammatory properties\n• Promotes nutrient absorption\n• May help with weight loss\n• Supports gut health' },
+  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Maa श्री Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: '["/images/products/cardamom.png"]', badge: 'Luxury', benefits: '• Natural breath freshener\n• Lowers blood pressure\n• Anti-bacterial properties\n• Aids in relaxation and stress relief' },
 ];
 
 const DEFAULT_CONFIG = { razorpayKeyId: '', codDeliveryCharge: 50, prepaidDeliveryCharge: 50, freeShippingAbove: 800 };
@@ -42,8 +42,35 @@ const Store = {
 
   // ── Products ────────────────────────────────────────────────────────────────
   // ── helpers ──
-  _lsProducts() { return JSON.parse(localStorage.getItem('maa_shree_products') || '[]'); },
-  _lsSaveProducts(p) { localStorage.setItem('maa_shree_products', JSON.stringify(p)); },
+  _parseImage(imgStr) {
+    if (!imgStr) return [];
+    const unpack = (val) => {
+      if (typeof val === 'string') {
+        if (val.trim().startsWith('[')) {
+          try { return unpack(JSON.parse(val)); } catch(e) { return [val]; }
+        }
+        return [val];
+      }
+      if (Array.isArray(val)) {
+        return val.flatMap(item => unpack(item));
+      }
+      return [val];
+    };
+    return unpack(imgStr);
+  },
+  _lsProducts() { 
+    return JSON.parse(localStorage.getItem('maa_shree_products') || '[]').map(p => ({
+        ...p,
+        image: this._parseImage(p.image)
+    }));
+  },
+  _lsSaveProducts(p) { 
+    const toSave = p.map(prod => ({
+      ...prod,
+      image: JSON.stringify(prod.image)
+    }));
+    localStorage.setItem('maa_shree_products', JSON.stringify(toSave)); 
+  },
 
   async _apiOk(url, opts = {}) {
     try {

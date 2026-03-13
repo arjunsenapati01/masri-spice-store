@@ -13,6 +13,7 @@
     <div id="admin-toast" class="admin-toast"></div>
 
     <div class="admin-layout">
+        <div class="admin-sidebar-overlay" id="admin-mobile-overlay" onclick="toggleAdminMenu()"></div>
         <aside class="admin-sidebar">
             <div class="sidebar-logo">
                 <img src="../images/maa_shree_logo.png" alt="Maa श्री" />
@@ -91,7 +92,7 @@
             </script>
             <div class="admin-topbar">
                 <div class="topbar-title" style="display: flex; align-items: center; gap: 15px;">
-                    <button id="admin-mobile-menu-btn" class="admin-mobile-toggle" style="background: none; border: none; font-size: 1.8rem; color: var(--admin-amber); cursor: pointer;">☰</button>
+                    <button type="button" class="admin-mobile-toggle" style="background: none; border: none; font-size: 1.8rem; color: var(--admin-amber); cursor: pointer;" onclick="toggleAdminMenu()">☰</button>
                     <div>
                         <h1>Settings</h1>
                         <p>Configure payment gateway and delivery charges</p>
@@ -274,11 +275,10 @@
             }
         }
 
-        const adminMenuBtn = document.getElementById('admin-mobile-menu-btn');
-        if(adminMenuBtn) {
-            adminMenuBtn.addEventListener('click', () => {
-                document.querySelector('.admin-sidebar').classList.toggle('open');
-            });
+        function toggleAdminMenu() {
+            document.querySelector('.admin-sidebar').classList.toggle('open');
+            const overlay = document.getElementById('admin-mobile-overlay');
+            if(overlay) overlay.classList.toggle('open');
         }
 
         loadSettings();

@@ -11,7 +11,16 @@ export default async function handler(req, res) {
     try {
         if (req.method === 'GET') {
             const { rows } = await sql`SELECT * FROM products ORDER BY created_at ASC`;
-            return res.status(200).json(rows);
+            const parsedRows = rows.map(p => {
+                try {
+                    p.image = JSON.parse(p.image);
+                    if (!Array.isArray(p.image)) p.image = [p.image];
+                } catch(e) {
+                    p.image = p.image ? [p.image] : [];
+                }
+                return p;
+            });
+            return res.status(200).json(parsedRows);
         }
 
         if (req.method === 'POST') {
@@ -23,7 +32,7 @@ export default async function handler(req, res) {
             const w = weight !== undefined ? weight : 100;
             const p = price !== undefined ? price : 0;
             const s = stock !== undefined ? stock : 0;
-            const img = image !== undefined ? image : '';
+            const img = image !== undefined ? JSON.stringify(Array.isArray(image) ? image : [image]) : '[]';
             const bnd = badge !== undefined ? badge : '';
             const ben = benefits !== undefined ? benefits : '';
 
@@ -32,7 +41,15 @@ export default async function handler(req, res) {
         INSERT INTO products (id, name, description, weight, price, stock, image, badge, benefits)
         VALUES (${id}, ${n}, ${d}, ${w}, ${p}, ${s}, ${img}, ${bnd}, ${ben})
         RETURNING *`;
-            return res.status(201).json(rows[0]);
+            
+            let p_ret = rows[0];
+            try {
+                p_ret.image = JSON.parse(p_ret.image);
+                if (!Array.isArray(p_ret.image)) p_ret.image = [p_ret.image];
+            } catch(e) {
+                p_ret.image = p_ret.image ? [p_ret.image] : [];
+            }
+            return res.status(201).json(p_ret);
         }
 
         return res.status(405).json({ error: 'Method not allowed' });

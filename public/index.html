@@ -204,10 +204,11 @@
       grid.innerHTML = _products.map((p, i) => {
         const stockClass = p.stock === 0 ? 'out' : p.stock <= 5 ? 'low' : '';
         const stockLabel = p.stock === 0 ? 'Out of Stock' : p.stock <= 5 ? `Only ${p.stock} left` : 'In Stock';
+        const displayImg = (p.image && p.image.length > 0) ? p.image[0] : 'images/maa_shree_logo.png';
         return `
         <div class="product-card" style="animation-delay:${i * 0.08}s; cursor:pointer;" onclick="if(event.target.tagName !== 'BUTTON') window.location.href='product.html?id=${p.id}'">
           <div class="product-image-wrap">
-            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='images/maa_shree_logo.png'" />
+            <img src="${displayImg}" alt="${p.name}" loading="lazy" onerror="this.src='images/maa_shree_logo.png'" />
             ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
           </div>
           <div class="product-info">

@@ -152,10 +152,11 @@
         const p = _products[item.productId];
         if (!p) return '';
         const lineTotal = p.price * item.qty;
+        const displayImg = (p.image && p.image.length > 0) ? p.image[0] : 'images/logo.png';
         return `
         <div class="cart-item" id="cart-item-${p.id}">
           <div class="cart-item-info">
-            <img src="${p.image}" alt="${p.name}" class="cart-item-img" onerror="this.src='images/logo.png'" />
+            <img src="${displayImg}" alt="${p.name}" class="cart-item-img" onerror="this.src='images/logo.png'" />
             <div>
               <div class="cart-item-name">${p.name}</div>
               <div class="cart-item-weight">${p.weight}g</div>
