@@ -45,56 +45,88 @@ const Store = {
   _lsProducts() { return JSON.parse(localStorage.getItem('maa_shree_products') || '[]'); },
   _lsSaveProducts(p) { localStorage.setItem('maa_shree_products', JSON.stringify(p)); },
 
-  async _apiOk(url, opts) {
+  async _apiOk(url, opts = {}) {
     try {
-      const res = await fetch(url, opts);
+      const options = { ...opts, cache: 'no-store' };
+      // Also append cache-busting timestamp to GET requests
+      let fetchUrl = url;
+      if (!options.method || options.method === 'GET') {
+        const char = url.includes('?') ? '&' : '?';
+        fetchUrl = `${url}${char}_t=${Date.now()}`;
+      }
+      const res = await fetch(fetchUrl, options);
       if (!res.ok) return null;
       return await res.json();
     } catch { return null; }
   },
 
   async getProducts() {
+    let products = this._lsProducts();
     const data = await this._apiOk('/api/products');
-    if (data) return data;
-    // Fallback: localStorage
-    return this._lsProducts();
+    if (data && Array.isArray(data)) {
+      products = data;
+      this._lsSaveProducts(products); // Sync local state
+    }
+    return products;
   },
 
   async getProductById(id) {
     const data = await this._apiOk(`/api/product?id=${id}`);
-    if (data) return data;
+    if (data && !data.error) return data;
     return this._lsProducts().find(p => p.id === id) || null;
   },
 
   async addProduct(data) {
-    const result = await this._apiOk('/api/products', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
-    });
-    if (result) return result;
-    // Fallback: localStorage
+    let result = null;
+    try {
+      const res = await fetch('/api/products', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+      });
+      if (res.ok) { result = await res.json(); }
+      else { const err = await res.json(); console.warn("DB Add Error:", err); }
+    } catch (e) {
+      console.warn("API Add Error:", e);
+    }
+
+    // Always update local storage so UI reflects instantly
+    const newProduct = result || { id: 'p' + Date.now(), ...data, created_at: new Date().toISOString() };
     const products = this._lsProducts();
-    const newProduct = { ...data, id: 'p' + Date.now() };
     products.push(newProduct);
     this._lsSaveProducts(products);
-    return newProduct;
+
+    if (!result) throw new Error('Saved locally. Vercel DB connection may be missing.');
+    return result;
   },
 
   async updateProduct(id, updates) {
-    const result = await this._apiOk(`/api/product?id=${id}`, {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates),
-    });
-    if (result) return result;
-    // Fallback: localStorage
-    const products = this._lsProducts();
-    const idx = products.findIndex(p => p.id === id);
-    if (idx !== -1) { products[idx] = { ...products[idx], ...updates }; this._lsSaveProducts(products); return products[idx]; }
-    return null;
+    let result = null;
+    try {
+      const res = await fetch(`/api/product?id=${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates),
+      });
+      if (res.ok) { result = await res.json(); }
+      else { const err = await res.json(); console.warn("DB Update Error:", err); }
+    } catch (e) {
+      console.warn("API Update Error:", e);
+    }
+
+    // Always update local storage so UI reflects instantly
+    let products = this._lsProducts();
+    products = products.map(p => p.id === id ? { ...p, ...updates } : p);
+    this._lsSaveProducts(products);
+
+    if (!result) throw new Error('Updated locally. Vercel DB connection may be missing.');
+    return true;
   },
 
   async deleteProduct(id) {
-    const result = await this._apiOk(`/api/product?id=${id}`, { method: 'DELETE' });
-    if (result !== null) return true;
-    // Fallback: localStorage
+    try {
+      await fetch(`/api/product?id=${id}`, { method: 'DELETE' });
+    } catch (e) {
+      console.warn("API Delete Error:", e);
+    }
+    
+    // Always update local storage
     this._lsSaveProducts(this._lsProducts().filter(p => p.id !== id));
     return true;
   },
@@ -105,17 +137,22 @@ const Store = {
     if (file.size > 4.5 * 1024 * 1024) {
       throw new Error('Image too large (max 4.5MB). Please optimize the image.');
     }
-    // Upload raw file to Vercel Blob via our API route
-    const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
-      method: 'POST',
-      body: file,
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: 'Upload failed' }));
-      throw new Error(err.error || 'Image upload failed');
+    try {
+      // Upload raw file to Vercel Blob via our API route
+      const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+        method: 'POST',
+        body: file,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Upload failed' }));
+        throw new Error(err.error || 'Image upload failed');
+      }
+      const { url } = await res.json();
+      return url;
+    } catch (e) {
+      console.warn("Vercel Blob Upload Error:", e);
+      throw new Error("Local environment missing connected Storage, or " + e.message);
     }
-    const { url } = await res.json();
-    return url;
   },
 
   // ── Cart (stays in localStorage — session only) ───────────────────────────────

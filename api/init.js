@@ -37,18 +37,25 @@ export default async function handler(req, res) {
   try {
     // Create tables
     await sql`
-      CREATE TABLE IF NOT EXISTS products (
-        id TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
-        description TEXT,
-        weight INTEGER DEFAULT 100,
-        price INTEGER DEFAULT 0,
-        stock INTEGER DEFAULT 0,
-        image TEXT DEFAULT '',
-        badge TEXT DEFAULT '',
-        benefits TEXT DEFAULT '',
-        created_at TIMESTAMPTZ DEFAULT NOW()
-      )`;
+        CREATE TABLE IF NOT EXISTS products (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          description TEXT,
+          weight INTEGER DEFAULT 100,
+          price INTEGER DEFAULT 0,
+          stock INTEGER DEFAULT 0,
+          image TEXT DEFAULT '',
+          badge TEXT DEFAULT '',
+          benefits TEXT DEFAULT '',
+          created_at TIMESTAMPTZ DEFAULT NOW()
+        )`;
+
+    // Migration: Add benefits column if it doesn't exist
+    try {
+      await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS benefits TEXT DEFAULT ''`;
+    } catch (colErr) {
+      console.log('Benefits column check/add:', colErr.message);
+    }
 
     await sql`
       CREATE TABLE IF NOT EXISTS orders (

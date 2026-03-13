@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,DELETE,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     if (req.method === 'OPTIONS') return res.status(200).end();
 
     const { id } = req.query;
@@ -20,16 +21,26 @@ export default async function handler(req, res) {
         if (req.method === 'PUT') {
             const { name, description, weight, price, stock, image, badge, benefits } = req.body;
             // Build dynamic update — only update fields that are provided
+            
+            const n = name !== undefined ? name : null;
+            const d = description !== undefined ? description : null;
+            const w = weight !== undefined ? weight : null;
+            const p = price !== undefined ? price : null;
+            const s = stock !== undefined ? stock : null;
+            const img = image !== undefined ? image : null;
+            const bnd = badge !== undefined ? badge : null;
+            const ben = benefits !== undefined ? benefits : null;
+
             const { rows } = await sql`
         UPDATE products SET
-          name        = COALESCE(${name}, name),
-          description = COALESCE(${description}, description),
-          weight      = COALESCE(${weight}, weight),
-          price       = COALESCE(${price}, price),
-          stock       = COALESCE(${stock}, stock),
-          image       = COALESCE(${image}, image),
-          badge       = COALESCE(${badge !== undefined ? badge : null}, badge),
-          benefits    = COALESCE(${benefits}, benefits)
+          name        = COALESCE(${n}, name),
+          description = COALESCE(${d}, description),
+          weight      = COALESCE(${w}, weight),
+          price       = COALESCE(${p}, price),
+          stock       = COALESCE(${s}, stock),
+          image       = COALESCE(${img}, image),
+          badge       = COALESCE(${bnd}, badge),
+          benefits    = COALESCE(${ben}, benefits)
         WHERE id = ${id}
         RETURNING *`;
             if (!rows.length) return res.status(404).json({ error: 'Product not found' });
