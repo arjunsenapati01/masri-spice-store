@@ -1006,3 +1006,111 @@ textarea {
         font-size: 1.1rem;
     }
 }
+@media (max-width: 480px) {
+    .login-logo {
+        height: 60px;
+        margin-bottom: 24px;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+
+    .pin-pad {
+        gap: 12px;
+    }
+}
+
+/* ─── Responsive Adjustments ─────────────────────────────────────── */
+@media (max-width: 900px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 1px solid var(--admin-border);
+        padding-bottom: 10px;
+    }
+
+    .sidebar-logo {
+        flex: 1 1 100%;
+        border-bottom: 1px solid var(--admin-border);
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .nav-group-title {
+        display: block;
+        flex: 1 1 100%;
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+
+    .sidebar-footer {
+        flex: 1 1 100%;
+        border-top: none;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .logout-btn {
+        width: auto;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .admin-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .topbar-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        justify-content: flex-start;
+    }
+
+    .admin-table-wrap {
+        overflow-x: auto;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        white-space: nowrap;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -116,6 +116,42 @@
         </aside>
 
         <main class="admin-main">
+            <div class="expiry-banner" id="expiry-banner" style="background: linear-gradient(90deg, #8B1A1A, #C8860A); padding: 12px 20px; color: white; display: flex; align-items: center; justify-content: space-between; font-weight: 500; font-size: 0.9rem; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <strong style="font-size: 1rem;">⚠️ Your website will expire in 3 years</strong> <span style="opacity: 0.9;">(<span id="expiry-date-display"></span>)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <div style="font-family: monospace; font-size: 1.1rem; font-weight: 700; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 4px;" id="expiry-countdown">Loading...</div>
+                    <button style="background: white; color: #8B1A1A; border: none; padding: 6px 15px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='white'" onclick="alert('Redirecting to renewal portal...')">Renew Now</button>
+                </div>
+            </div>
+            <script>
+                function updateCountdown() {
+                    const today = new Date(); // 2026-03-14
+                    const expiryDate = new Date();
+                    expiryDate.setFullYear(today.getFullYear() + 3);
+                    
+                    document.getElementById('expiry-date-display').innerText = expiryDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+                    
+                    setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = expiryDate.getTime() - now;
+                        
+                        if (distance < 0) {
+                            document.getElementById('expiry-countdown').innerText = "EXPIRED";
+                            return;
+                        }
+                        
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        
+                        document.getElementById('expiry-countdown').innerText = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                    }, 1000);
+                }
+                updateCountdown();
+            </script>
             <div class="admin-topbar">
                 <div class="topbar-title">
                     <h1>Products</h1>
