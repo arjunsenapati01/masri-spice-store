@@ -3,11 +3,11 @@
     "rewrites": [
         {
             "source": "/admin",
-            "destination": "/admin/login"
+            "destination": "/admin/index"
         },
         {
             "source": "/admin/",
-            "destination": "/admin/login"
+            "destination": "/admin/index"
         }
     ],
     "headers": [
