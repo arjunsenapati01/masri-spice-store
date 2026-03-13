@@ -69,6 +69,7 @@
                     <button class="filter-chip" onclick="setFilter('Confirmed', this)">Confirmed</button>
                     <button class="filter-chip" onclick="setFilter('Shipped', this)">Shipped</button>
                     <button class="filter-chip" onclick="setFilter('Delivered', this)">Delivered</button>
+                    <button class="filter-chip" onclick="setFilter('Canceled', this)">Canceled</button>
                 </div>
 
                 <div class="admin-table-wrap">
@@ -93,7 +94,7 @@
         let currentFilter = 'All';
         let _allOrders = [];
 
-        const STATUS_COLORS = { 'Pending': 'badge-pending', 'Confirmed': 'badge-confirmed', 'Shipped': 'badge-shipped', 'Delivered': 'badge-delivered' };
+        const STATUS_COLORS = { 'Pending': 'badge-pending', 'Confirmed': 'badge-confirmed', 'Shipped': 'badge-shipped', 'Delivered': 'badge-delivered', 'Canceled': 'badge-canceled' };
 
         function adminToast(msg) {
             const t = document.getElementById('admin-toast');
@@ -166,9 +167,13 @@
                       <option ${o.order_status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
                       <option ${o.order_status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                       <option ${o.order_status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                      <option ${o.order_status === 'Canceled' ? 'selected' : ''}>Canceled</option>
                     </select>
                   </td>
-                  <td><button class="btn-admin-gold btn-sm" onclick="viewOrder('${o.id}')">View</button></td>
+                  <td>
+                    <button class="btn-admin-gold btn-sm" style="margin-right: 4px;" onclick="viewOrder('${o.id}')">View</button>
+                    ${o.order_status !== 'Canceled' ? `<button class="btn-danger btn-sm" onclick="cancelOrder('${o.id}')">Cancel</button>` : ''}
+                  </td>
                 </tr>`;
             }).join('')}
           </tbody>
@@ -180,8 +185,20 @@
                 await Store.updateOrderStatus(id, status);
                 _allOrders = _allOrders.map(o => o.id === id ? { ...o, order_status: status } : o);
                 renderStats();
+                renderTable();
                 adminToast(`Status updated to ${status}`);
             } catch (e) { adminToast('Error: ' + e.message); }
+        }
+
+        async function cancelOrder(id) {
+            if (!confirm('Are you sure you want to cancel this order?')) return;
+            try {
+                await Store.updateOrderStatus(id, 'Canceled');
+                _allOrders = _allOrders.map(o => o.id === id ? { ...o, order_status: 'Canceled' } : o);
+                renderStats();
+                renderTable();
+                adminToast('Order Canceled successfully');
+            } catch (e) { adminToast('Error: ' + e.message, 'error'); }
         }
 
         function viewOrder(id) {

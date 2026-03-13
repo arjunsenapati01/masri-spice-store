@@ -163,8 +163,8 @@
 
         function doLogout() { Store.adminLogout(); window.location.href = '/admin/login'; }
 
-        function loadSettings() {
-            const config = Store.getConfig();
+        async function loadSettings() {
+            const config = await Store.getConfig();
             document.getElementById('rzp-key-id').value = config.razorpayKeyId || '';
             document.getElementById('cod-charge').value = config.codDeliveryCharge ?? 50;
             document.getElementById('prepaid-charge').value = config.prepaidDeliveryCharge ?? 50;
@@ -178,47 +178,47 @@
             badge.textContent = active ? '✅ Active' : '⚠️ Not Configured';
         }
 
-        function saveRazorpay() {
+        async function saveRazorpay() {
             const keyId = document.getElementById('rzp-key-id').value.trim();
             if (!keyId) { adminToast('Please enter a Razorpay Key ID', 'error'); return; }
-            const config = Store.getConfig();
+            const config = await Store.getConfig();
             config.razorpayKeyId = keyId;
-            Store.saveConfig(config);
+            await Store.saveConfig(config);
             updateRzpBadge(true);
             adminToast('Razorpay configured successfully! Online payments are now active.');
         }
 
-        function disableRazorpay() {
-            const config = Store.getConfig();
+        async function disableRazorpay() {
+            const config = await Store.getConfig();
             config.razorpayKeyId = '';
-            Store.saveConfig(config);
+            await Store.saveConfig(config);
             document.getElementById('rzp-key-id').value = '';
             updateRzpBadge(false);
             adminToast('Razorpay disabled. Only COD orders accepted.');
         }
 
-        function saveDelivery() {
+        async function saveDelivery() {
             const cod = parseInt(document.getElementById('cod-charge').value) || 0;
             const prepaid = parseInt(document.getElementById('prepaid-charge').value) || 0;
             const freeAbove = parseInt(document.getElementById('free-ship-above').value) || 0;
-            const config = Store.getConfig();
+            const config = await Store.getConfig();
             config.codDeliveryCharge = cod;
             config.prepaidDeliveryCharge = prepaid;
             config.freeShippingAbove = freeAbove;
-            Store.saveConfig(config);
+            await Store.saveConfig(config);
             adminToast('Delivery charges saved!');
         }
 
-        function savePin() {
+        async function savePin() {
             const pin = document.getElementById('new-pin').value.trim();
             const confirm = document.getElementById('confirm-pin').value.trim();
             if (!pin || pin.length !== 9 || !/^\d{9}$/.test(pin)) {
                 adminToast('PIN must be exactly 9 digits', 'error'); return;
             }
             if (pin !== confirm) { adminToast('PINs do not match', 'error'); return; }
-            const config = Store.getConfig();
+            const config = await Store.getConfig();
             config.adminPassword = pin;
-            Store.saveConfig(config);
+            await Store.saveConfig(config);
             document.getElementById('new-pin').value = '';
             document.getElementById('confirm-pin').value = '';
             adminToast('Admin PIN updated successfully!');
