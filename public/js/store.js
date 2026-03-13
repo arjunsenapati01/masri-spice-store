@@ -1,5 +1,5 @@
 /**
- * Masri Spice Store — API Client
+ * Maa श्री Spice Store — API Client
  * Uses Vercel Postgres via serverless API routes when deployed.
  * Falls back to localStorage with seeded defaults when running locally.
  */
@@ -12,18 +12,28 @@ const DEFAULT_PRODUCTS = [
   { id: 'p4', name: 'Coriander Powder', description: 'Mild, citrusy, and fragrant. Our Coriander Powder is the foundation of most spice blends — adding a gentle warmth and depth to every dish it touches.', weight: 100, price: 119, stock: 55, image: 'images/products/coriander.png', badge: '' },
   { id: 'p5', name: 'Garam Masala', description: 'The crown jewel of Indian spices. Our signature Garam Masala is a perfectly balanced blend of 12 aromatic whole spices — adding extraordinary warmth and complexity.', weight: 100, price: 189, stock: 40, image: 'images/products/garam-masala.png', badge: 'Premium' },
   { id: 'p6', name: 'Black Pepper Powder', description: 'Bold, sharp, and intensely pungent. Our freshly ground Black Pepper Powder adds a classic heat and sophisticated spice to every dish.', weight: 100, price: 169, stock: 35, image: 'images/products/black-pepper.png', badge: '' },
-  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Masri Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: 'images/products/cardamom.png', badge: 'Luxury' },
+  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Maa श्री Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: 'images/products/cardamom.png', badge: 'Luxury' },
 ];
 
 const DEFAULT_CONFIG = { razorpayKeyId: '', codDeliveryCharge: 50, prepaidDeliveryCharge: 50, freeShippingAbove: 800 };
 
 // Seed localStorage with defaults if empty (for local dev)
 function seedLocalIfEmpty() {
-  if (!localStorage.getItem('masri_products')) {
-    localStorage.setItem('masri_products', JSON.stringify(DEFAULT_PRODUCTS));
+  // Clear old "masri" data to force a fresh start with "maa_shree"
+  if (localStorage.getItem('masri_products') || localStorage.getItem('masri_config')) {
+    console.log('Detected legacy Masri data. Migrating to Maa श्री...');
+    localStorage.removeItem('masri_products');
+    localStorage.removeItem('masri_cart');
+    localStorage.removeItem('masri_config');
+    localStorage.removeItem('masri_orders');
+    sessionStorage.removeItem('masri_admin');
   }
-  if (!localStorage.getItem('masri_config')) {
-    localStorage.setItem('masri_config', JSON.stringify(DEFAULT_CONFIG));
+
+  if (!localStorage.getItem('maa_shree_products')) {
+    localStorage.setItem('maa_shree_products', JSON.stringify(DEFAULT_PRODUCTS));
+  }
+  if (!localStorage.getItem('maa_shree_config')) {
+    localStorage.setItem('maa_shree_config', JSON.stringify(DEFAULT_CONFIG));
   }
 }
 seedLocalIfEmpty();
@@ -32,8 +42,8 @@ const Store = {
 
   // ── Products ────────────────────────────────────────────────────────────────
   // ── helpers ──
-  _lsProducts() { return JSON.parse(localStorage.getItem('masri_products') || '[]'); },
-  _lsSaveProducts(p) { localStorage.setItem('masri_products', JSON.stringify(p)); },
+  _lsProducts() { return JSON.parse(localStorage.getItem('maa_shree_products') || '[]'); },
+  _lsSaveProducts(p) { localStorage.setItem('maa_shree_products', JSON.stringify(p)); },
 
   async _apiOk(url, opts) {
     try {
@@ -103,11 +113,11 @@ const Store = {
 
   // ── Cart (stays in localStorage — session only) ───────────────────────────────
   getCart() {
-    return JSON.parse(localStorage.getItem('masri_cart') || '[]');
+    return JSON.parse(localStorage.getItem('maa_shree_cart') || '[]');
   },
 
   saveCart(cart) {
-    localStorage.setItem('masri_cart', JSON.stringify(cart));
+    localStorage.setItem('maa_shree_cart', JSON.stringify(cart));
   },
 
   addToCart(productId, qty = 1) {
@@ -134,7 +144,7 @@ const Store = {
   },
 
   clearCart() {
-    localStorage.setItem('masri_cart', '[]');
+    localStorage.setItem('maa_shree_cart', '[]');
   },
 
   getCartCount() {
@@ -146,7 +156,7 @@ const Store = {
     const data = await this._apiOk('/api/config');
     if (data) return data;
     // Fallback: localStorage
-    return JSON.parse(localStorage.getItem('masri_config') || 'null') || DEFAULT_CONFIG;
+    return JSON.parse(localStorage.getItem('maa_shree_config') || 'null') || DEFAULT_CONFIG;
   },
 
   async saveConfig(cfg) {
@@ -155,7 +165,7 @@ const Store = {
     });
     if (result) return true;
     // Fallback: localStorage
-    localStorage.setItem('masri_config', JSON.stringify(cfg));
+    localStorage.setItem('maa_shree_config', JSON.stringify(cfg));
     return true;
   },
 
@@ -164,14 +174,14 @@ const Store = {
     const data = await this._apiOk('/api/orders');
     if (data) return data;
     // Fallback: localStorage
-    return JSON.parse(localStorage.getItem('masri_orders') || '[]');
+    return JSON.parse(localStorage.getItem('maa_shree_orders') || '[]');
   },
 
   async getOrderById(id) {
     const data = await this._apiOk(`/api/order?id=${id}`);
     if (data) return data;
     // Fallback: localStorage
-    return JSON.parse(localStorage.getItem('masri_orders') || '[]').find(o => o.id === id) || null;
+    return JSON.parse(localStorage.getItem('maa_shree_orders') || '[]').find(o => o.id === id) || null;
   },
 
   async createOrder(customer, cartItems, productMap, paymentMethod, paymentStatus, config) {
@@ -191,9 +201,9 @@ const Store = {
     if (result) { this.clearCart(); return result; }
     // Fallback: localStorage
     const order = { id: 'ORD' + Date.now(), customer, items, subtotal, delivery_charge: delivery, total, payment_method: paymentMethod, payment_status: paymentStatus, order_status: 'Pending', created_at: new Date().toISOString() };
-    const orders = JSON.parse(localStorage.getItem('masri_orders') || '[]');
+    const orders = JSON.parse(localStorage.getItem('maa_shree_orders') || '[]');
     orders.unshift(order);
-    localStorage.setItem('masri_orders', JSON.stringify(orders));
+    localStorage.setItem('maa_shree_orders', JSON.stringify(orders));
     this.clearCart();
     return order;
   },
@@ -204,15 +214,15 @@ const Store = {
     });
     if (result) return true;
     // Fallback: localStorage
-    const orders = JSON.parse(localStorage.getItem('masri_orders') || '[]');
+    const orders = JSON.parse(localStorage.getItem('maa_shree_orders') || '[]');
     const o = orders.find(x => x.id === id);
-    if (o) { o.order_status = orderStatus; localStorage.setItem('masri_orders', JSON.stringify(orders)); }
+    if (o) { o.order_status = orderStatus; localStorage.setItem('maa_shree_orders', JSON.stringify(orders)); }
     return true;
   },
 
   // ── Admin Auth ───────────────────────────────────────────────────────────────
   isAdminLoggedIn() {
-    return sessionStorage.getItem('masri_admin') === 'true';
+    return sessionStorage.getItem('maa_shree_admin') === 'true';
   },
 
   async adminLogin(pin) {
@@ -220,21 +230,21 @@ const Store = {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin }),
     });
     if (data?.ok) {
-      sessionStorage.setItem('masri_admin', 'true');
+      sessionStorage.setItem('maa_shree_admin', 'true');
       return true;
     }
     // Fallback: check against localStorage config or default PIN
-    const cfg = JSON.parse(localStorage.getItem('masri_config') || '{}');
+    const cfg = JSON.parse(localStorage.getItem('maa_shree_config') || '{}');
     const correctPin = cfg.adminPassword || '987654321';
     if (pin === correctPin) {
-      sessionStorage.setItem('masri_admin', 'true');
+      sessionStorage.setItem('maa_shree_admin', 'true');
       return true;
     }
     return false;
   },
 
   adminLogout() {
-    sessionStorage.removeItem('masri_admin');
+    sessionStorage.removeItem('maa_shree_admin');
   },
 };
 

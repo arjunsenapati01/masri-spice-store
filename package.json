@@ -1,8 +1,8 @@
 {
-  "name": "masri-spice-store",
+  "name": "maa-shree-spice-store",
   "version": "1.0.0",
   "type": "module",
-  "description": "MBJ International – Masri Spice E-Commerce Platform",
+  "description": "MBJ International – Maa श्री Spice E-Commerce Platform",
   "scripts": {
     "dev": "vercel dev",
     "build": "echo 'Static site – no build step'",

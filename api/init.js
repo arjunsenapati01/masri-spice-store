@@ -8,7 +8,7 @@ const DEFAULT_PRODUCTS = [
   { id: 'p4', name: 'Coriander Powder', description: 'Mild, citrusy, and fragrant. Our Coriander Powder is the foundation of most spice blends — adding a gentle warmth and depth to every dish it touches.', weight: 100, price: 119, stock: 55, image: '/images/products/coriander.png', badge: '' },
   { id: 'p5', name: 'Garam Masala', description: 'The crown jewel of Indian spices. Our signature Garam Masala is a perfectly balanced blend of 12 aromatic whole spices — adding extraordinary warmth and complexity.', weight: 100, price: 189, stock: 40, image: '/images/products/garam-masala.png', badge: 'Premium' },
   { id: 'p6', name: 'Black Pepper Powder', description: 'Bold, sharp, and intensely pungent. Our freshly ground Black Pepper Powder adds a classic heat and sophisticated spice to every dish — from soups to steaks.', weight: 100, price: 169, stock: 35, image: '/images/products/black-pepper.png', badge: '' },
-  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Masri Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: '/images/products/cardamom.png', badge: 'Luxury' },
+  { id: 'p7', name: 'Cardamom Powder', description: 'Delicate, sweet, and intensely floral. Maa श्री Cardamom Powder elevates desserts, chai, and biryanis with its exotic, mystical aroma — a true luxury ingredient.', weight: 50, price: 249, stock: 25, image: '/images/products/cardamom.png', badge: 'Luxury' },
 ];
 
 const DEFAULT_CONFIG = [
