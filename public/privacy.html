@@ -27,10 +27,31 @@
                 <a href="index.html#products">Products</a>
                 <a href="contact.html">Contact</a>
             </nav>
-            <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-count" id="cart-count"
-                    style="display:none">0</span></a>
+            <a href="cart.html" class="cart-btn" id="cart-btn" aria-label="View Cart"><span>🛒</span><span
+                    class="cart-count" id="cart-count" style="display:none">0</span></a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="index.html">Home</a>
+            <a href="index.html#products">Products</a>
+            <a href="cart.html">View Cart</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+        <div class="mobile-footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="shipping.html">Shipping</a>
+            <a href="refund.html">Refund</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
 
     <div class="page-banner">
         <h1>Privacy Policy</h1>
@@ -82,7 +103,8 @@
         <h2>7. Your Rights</h2>
         <p>You have the right to access, update, or delete your personal data, opt out of marketing emails, and request
             a copy of the data we hold. To exercise these rights, contact us at:
-            <strong>info@mbj-international.com</strong></p>
+            <strong>info@mbj-international.com</strong>
+        </p>
 
         <h2>8. Data Retention</h2>
         <p>We retain your information only as long as necessary for fulfilling orders, complying with legal obligations,
@@ -123,7 +145,30 @@
         </div>
     </footer>
     <script src="js/store.js"></script>
-    <script>updateCartBadge();</script>
+    <script>
+        updateCartBadge();
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Close menu on link click
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>
