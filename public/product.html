@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details — Maa श्री Spices</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="images/maa_shree_logo.png" />
+    <style>
+        .product-page-wrapper {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        @media (max-width: 850px) {
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .detail-image-wrap {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 120px;
+        }
+
+        .detail-image-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .detail-image-wrap:hover img {
+            transform: scale(1.03);
+        }
+
+        .detail-content {
+            padding: 20px 0;
+        }
+
+        .detail-badge {
+            display: inline-block;
+            background: var(--brand-gold);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .detail-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--brand-crimson);
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .detail-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .detail-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-gold);
+        }
+
+        .detail-weight {
+            font-size: 1rem;
+            color: var(--brand-muted);
+        }
+
+        .detail-desc {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--brand-text);
+            margin-bottom: 32px;
+        }
+
+        .detail-benefits-wrap {
+            background: #fdfaf5;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border-left: 4px solid var(--brand-gold);
+        }
+
+        .detail-benefits-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--brand-crimson);
+            margin-bottom: 16px;
+        }
+
+        .detail-benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .detail-benefits-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--brand-text);
+            font-size: 0.95rem;
+        }
+
+        .detail-benefits-list li::before {
+            content: '✔';
+            color: var(--brand-gold);
+            font-weight: 900;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .qty-input-wrap {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--brand-text);
+            transition: color 0.2s;
+        }
+
+        .qty-btn:hover {
+            color: var(--brand-crimson);
+        }
+
+        .qty-val {
+            width: 40px;
+            text-align: center;
+            font-weight: 700;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .buy-btn {
+            flex: 1;
+            height: 54px;
+            background: var(--brand-crimson);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .buy-btn:hover:not(:disabled) {
+            background: #7a0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(122, 0, 0, 0.2);
+        }
+
+        .buy-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .related-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--brand-crimson);
+            margin-top: 80px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toast" class="toast"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo-wrap">
+                <img src="images/maa_shree_logo.png" alt="Maa श्री" class="logo-img" />
+                <div class="logo-text">
+                    <span class="logo-brand">Maa श्री</span>
+                    <span class="logo-sub">by MBJ International</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="index.html#products">Products</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <a href="cart.html" class="cart-btn" id="cart-btn" aria-label="View Cart">
+                <span>🛒</span>
+                <span class="cart-count" id="cart-count" style="display:none">0</span>
+            </a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="index.html">Home</a>
+            <a href="index.html#products">Products</a>
+            <a href="cart.html">View Cart</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+        <div class="mobile-footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="shipping.html">Shipping</a>
+            <a href="refund.html">Refund</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+
+    <main class="product-page-wrapper">
+        <div id="product-details-container">
+            <!-- Skeleton Loading -->
+            <div style="text-align:center; padding:100px; color:var(--brand-muted);">
+                <p>Aromatic secrets are being revealed...</p>
+            </div>
+        </div>
+
+        <h2 class="related-title">You Might Also Like</h2>
+        <div class="product-grid" id="related-grid" style="margin-top:0;"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="images/maa_shree_logo.png" alt="Maa श्री" class="footer-logo" />
+                    <p>Bring the authentic taste of Indian heritage to your kitchen with Maa श्री. Pure, potent, and
+                        premium.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <a href="index.html">Home</a>
+                    <a href="index.html#products">Our Spices</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Policies</h4>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="shipping.html">Shipping Policy</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 MBJ International. Brand: Maa श्री.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/store.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+
+        async function loadProduct() {
+            if (!productId) { window.location.href = 'index.html'; return; }
+
+            const container = document.getElementById('product-details-container');
+            let product = null;
+
+            try {
+                product = await Store.getProductById(productId);
+            } catch (e) {
+                console.error(e);
+            }
+
+            if (!product) {
+                container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>Spice Not Found</h2><a href="index.html" class="btn-gold">Back to Store</a></div>`;
+                return;
+            }
+
+            document.title = `${product.name} — Maa श्री Spices`;
+
+            const benefitsHtml = product.benefits ? `
+        <div class="detail-benefits-wrap">
+          <h4 class="detail-benefits-title">Why choose our ${product.name}?</h4>
+          <ul class="detail-benefits-list">
+            ${product.benefits.split('\n').filter(b => b.trim()).map(b => `<li>${b.replace(/^•\s*/, '')}</li>`).join('')}
+          </ul>
+        </div>
+      ` : '';
+
+            container.innerHTML = `
+        <div class="product-detail-grid">
+          <div class="detail-image-wrap">
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='images/maa_shree_logo.png'" />
+          </div>
+          <div class="detail-content">
+            ${product.badge ? `<div class="detail-badge">${product.badge}</div>` : ''}
+            <h1 class="detail-title">${product.name}</h1>
+            <div class="detail-meta">
+              <span class="detail-price">₹${product.price}</span>
+              <span class="detail-weight">⚖️ ${product.weight}g</span>
+            </div>
+            <p class="detail-desc">${product.description}</p>
+            ${benefitsHtml}
+            
+            <div class="product-stock ${product.stock <= 5 ? (product.stock === 0 ? 'out' : 'low') : ''}" style="margin-bottom:20px;">
+              ${product.stock > 0 ? (product.stock <= 5 ? `● Only ${product.stock} left` : '● In Stock') : '✕ Out of Stock'}
+            </div>
+
+            <div class="detail-actions">
+              <div class="qty-input-wrap">
+                <button class="qty-btn" onclick="updateQty(-1)">−</button>
+                <input type="text" class="qty-val" id="buy-qty" value="1" readonly />
+                <button class="qty-btn" onclick="updateQty(1)">+</button>
+              </div>
+              <button class="buy-btn" onclick="handleBuy('${product.id}', '${product.name.replace(/'/g, "\\'")}', ${product.stock})" ${product.stock === 0 ? 'disabled' : ''}>
+                🛒 Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+            loadRelated(product.id);
+        }
+
+        function updateQty(delta) {
+            const qInput = document.getElementById('buy-qty');
+            let val = parseInt(qInput.value) + delta;
+            if (val < 1) val = 1;
+            if (val > 10) val = 10;
+            qInput.value = val;
+        }
+
+        function handleBuy(id, name, stock) {
+            const q = parseInt(document.getElementById('buy-qty').value);
+            for (let i = 0; i < q; i++) {
+                Store.addToCart(id);
+            }
+            showToast(`${q} × ${name} added!`, '🛒');
+            updateCartBadge();
+        }
+
+        async function loadRelated(currentId) {
+            const grid = document.getElementById('related-grid');
+            let products = await Store.getProducts();
+            const related = products.filter(p => p.id !== currentId).slice(0, 3);
+
+            grid.innerHTML = related.map(p => `
+        <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer">
+          <div class="product-image-wrap">
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='images/maa_shree_logo.png'" />
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">${p.name}</h3>
+            <div class="product-meta">
+              <span class="product-weight">⚖️ ${p.weight}g</span>
+              <span class="product-price">₹${p.price}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+        }
+
+        loadProduct();
+        updateCartBadge();
+    </script>
+</body>
+
+</html>

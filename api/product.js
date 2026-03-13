@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         }
 
         if (req.method === 'PUT') {
-            const { name, description, weight, price, stock, image, badge } = req.body;
+            const { name, description, weight, price, stock, image, badge, benefits } = req.body;
             // Build dynamic update — only update fields that are provided
             const { rows } = await sql`
         UPDATE products SET
@@ -28,7 +28,8 @@ export default async function handler(req, res) {
           price       = COALESCE(${price}, price),
           stock       = COALESCE(${stock}, stock),
           image       = COALESCE(${image}, image),
-          badge       = COALESCE(${badge !== undefined ? badge : null}, badge)
+          badge       = COALESCE(${badge !== undefined ? badge : null}, badge),
+          benefits    = COALESCE(${benefits}, benefits)
         WHERE id = ${id}
         RETURNING *`;
             if (!rows.length) return res.status(404).json({ error: 'Product not found' });

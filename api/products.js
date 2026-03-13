@@ -14,13 +14,13 @@ export default async function handler(req, res) {
         }
 
         if (req.method === 'POST') {
-            const { name, description, weight, price, stock, image, badge } = req.body;
+            const { name, description, weight, price, stock, image, badge, benefits } = req.body;
             if (!name || !price) return res.status(400).json({ error: 'name and price are required' });
 
             const id = 'p' + Date.now();
             const { rows } = await sql`
-        INSERT INTO products (id, name, description, weight, price, stock, image, badge)
-        VALUES (${id}, ${name}, ${description || ''}, ${weight || 100}, ${price}, ${stock || 0}, ${image || ''}, ${badge || ''})
+        INSERT INTO products (id, name, description, weight, price, stock, image, badge, benefits)
+        VALUES (${id}, ${name}, ${description || ''}, ${weight || 100}, ${price}, ${stock || 0}, ${image || ''}, ${badge || ''}, ${benefits || ''})
         RETURNING *`;
             return res.status(201).json(rows[0]);
         }

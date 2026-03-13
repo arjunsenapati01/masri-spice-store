@@ -46,6 +46,7 @@ export default async function handler(req, res) {
         stock INTEGER DEFAULT 0,
         image TEXT DEFAULT '',
         badge TEXT DEFAULT '',
+        benefits TEXT DEFAULT '',
         created_at TIMESTAMPTZ DEFAULT NOW()
       )`;
 

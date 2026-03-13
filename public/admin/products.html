@@ -48,6 +48,11 @@
                     <label>Badge (optional)</label>
                     <input type="text" class="admin-input" id="p-badge" placeholder="e.g. Best Seller, Premium, New" />
                 </div>
+                <div class="admin-form-group">
+                    <label>Benefits (one per line)</label>
+                    <textarea class="admin-input admin-textarea" id="p-benefits" style="height:80px;"
+                        placeholder="• Benefit 1&#10;• Benefit 2..."></textarea>
+                </div>
                 <div class="admin-form-group" id="image-upload-group">
                     <label>Product Image</label>
                     <div class="img-upload-area" id="upload-area" onclick="document.getElementById('img-file').click()">
@@ -196,7 +201,7 @@
             newImageFile = null;
             document.getElementById('modal-title').textContent = '➕ Add New Product';
             document.getElementById('edit-id').value = '';
-            ['p-name', 'p-desc', 'p-price', 'p-weight', 'p-stock', 'p-badge'].forEach(id => document.getElementById(id).value = '');
+            ['p-name', 'p-desc', 'p-price', 'p-weight', 'p-stock', 'p-badge', 'p-benefits'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('image-hint').textContent = 'Upload a product image. Stored in Vercel Blob.';
             resetImagePreview();
             document.getElementById('product-modal').classList.add('open');
@@ -216,6 +221,7 @@
             document.getElementById('p-weight').value = p.weight;
             document.getElementById('p-stock').value = p.stock;
             document.getElementById('p-badge').value = p.badge || '';
+            document.getElementById('p-benefits').value = p.benefits || '';
             // Show existing image in preview
             const preview = document.getElementById('img-preview');
             const placeholder = document.getElementById('upload-placeholder');
@@ -263,6 +269,7 @@
             const weight = parseInt(document.getElementById('p-weight').value);
             const stock = parseInt(document.getElementById('p-stock').value);
             const badge = document.getElementById('p-badge').value.trim();
+            const benefits = document.getElementById('p-benefits').value.trim();
 
             if (!name || !desc || !price || !weight || isNaN(stock)) {
                 adminToast('Please fill all required fields ⚠️');
@@ -280,12 +287,12 @@
                 }
 
                 if (editingId) {
-                    const updates = { name, description: desc, price, weight, stock, badge };
+                    const updates = { name, description: desc, price, weight, stock, badge, benefits };
                     if (imageUrl) updates.image = imageUrl;
                     await Store.updateProduct(editingId, updates);
                     adminToast('Product updated successfully');
                 } else {
-                    await Store.addProduct({ name, description: desc, price, weight, stock, badge, image: imageUrl || '../images/logo.png' });
+                    await Store.addProduct({ name, description: desc, price, weight, stock, badge, benefits, image: imageUrl || '../images/logo.png' });
                     adminToast('Product added successfully');
                 }
 
