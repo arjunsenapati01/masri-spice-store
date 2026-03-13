@@ -101,12 +101,19 @@ const Store = {
 
   // ── Image Upload ─────────────────────────────────────────────────────────────
   async uploadImage(file) {
+    // Check file size (Vercel limit is 4.5MB)
+    if (file.size > 4.5 * 1024 * 1024) {
+      throw new Error('Image too large (max 4.5MB). Please optimize the image.');
+    }
     // Upload raw file to Vercel Blob via our API route
     const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
       method: 'POST',
       body: file,
     });
-    if (!res.ok) throw new Error('Image upload failed');
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Upload failed' }));
+      throw new Error(err.error || 'Image upload failed');
+    }
     const { url } = await res.json();
     return url;
   },
