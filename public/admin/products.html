@@ -139,7 +139,7 @@
 
     <script src="../js/store.js"></script>
     <script>
-        if (!Store.isAdminLoggedIn()) window.location.href = 'login.html';
+        if (!Store.isAdminLoggedIn()) window.location.href = '/admin/login';
 
         let editingId = null;
         let deleteId = null;
@@ -152,7 +152,7 @@
             setTimeout(() => t.classList.remove('show'), 3000);
         }
 
-        function doLogout() { Store.adminLogout(); window.location.href = 'login.html'; }
+        function doLogout() { Store.adminLogout(); window.location.href = '/admin/login'; }
 
         async function renderProducts() {
             let products = [];

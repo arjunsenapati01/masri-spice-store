@@ -90,7 +90,7 @@
 
     <script src="../js/store.js"></script>
     <script>
-        if (!Store.isAdminLoggedIn()) window.location.href = 'login.html';
+        if (!Store.isAdminLoggedIn()) window.location.href = '/admin/login';
 
         let currentFilter = 'All';
         let _allOrders = [];
@@ -110,7 +110,7 @@
             renderTable();
         }
 
-        function doLogout() { Store.adminLogout(); window.location.href = 'login.html'; }
+        function doLogout() { Store.adminLogout(); window.location.href = '/admin/login'; }
 
         async function render() {
             try {
